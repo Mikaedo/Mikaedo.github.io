@@ -1,0 +1,173 @@
+/* La grille de captures et sa visionneuse. */
+
+.galerie {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--esp-md);
+}
+
+.galerie__vignette {
+  position: relative;
+  padding: 0;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-md);
+  overflow: hidden;
+  background: var(--fond-creux);
+  cursor: zoom-in;
+  aspect-ratio: 16 / 10;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+
+.galerie__vignette:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ombre-md);
+  border-color: var(--trait-fort);
+}
+
+.galerie__vignette img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+/* Une capture de téléphone est haute : on la montre en entier plutôt
+   que rognée comme une capture d'écran large. */
+.galerie__vignette--mobile {
+  aspect-ratio: 3 / 4;
+}
+
+.galerie__vignette--mobile img {
+  object-fit: contain;
+  object-position: center;
+  background: var(--fond-creux);
+}
+
+.galerie__loupe {
+  position: absolute;
+  bottom: 10px; right: 10px;
+  width: 30px; height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--brun) 88%, transparent);
+  color: var(--blanc);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.galerie__loupe svg { width: 15px; height: 15px; }
+
+.galerie__vignette:hover .galerie__loupe,
+.galerie__vignette:focus-visible .galerie__loupe { opacity: 1; }
+
+.galerie__note {
+  margin-top: var(--esp-md);
+  font-family: var(--police-mono);
+  font-size: 11.5px;
+  color: var(--encre-tenue);
+}
+
+/* ==================================================================
+   La visionneuse
+   ================================================================== */
+.visionneuse {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--esp-xl) var(--esp-lg);
+  background: color-mix(in srgb, #1A120B 88%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: zoom-out;
+}
+
+.visionneuse__cadre {
+  margin: 0;
+  max-width: min(1180px, 94vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-md);
+  cursor: default;
+}
+
+.visionneuse__cadre img {
+  max-width: 100%;
+  max-height: 76vh;
+  width: auto;
+  object-fit: contain;
+  border-radius: var(--rayon-md);
+  box-shadow: var(--ombre-lg);
+  margin-inline: auto;
+}
+
+.visionneuse__cadre figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-md);
+  color: #EFE4D6;
+  font-size: 14.5px;
+  line-height: 1.5;
+  text-align: left;
+  max-width: 76ch;
+  margin-inline: auto;
+}
+
+.visionneuse__compte {
+  font-family: var(--police-mono);
+  font-size: 12px;
+  color: #C09B72;
+  flex: 0 0 auto;
+}
+
+.visionneuse__fermer {
+  position: absolute;
+  top: var(--esp-lg);
+  right: var(--esp-lg);
+  width: 40px; height: 40px;
+  border: 1px solid rgba(239, 228, 214, .28);
+  border-radius: 50%;
+  background: transparent;
+  color: #EFE4D6;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .16s, border-color .16s;
+}
+
+.visionneuse__fermer:hover {
+  background: rgba(239, 228, 214, .12);
+  border-color: rgba(239, 228, 214, .5);
+}
+
+.visionneuse__fleche {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px; height: 46px;
+  border: 1px solid rgba(239, 228, 214, .28);
+  border-radius: 50%;
+  background: transparent;
+  color: #EFE4D6;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .16s, border-color .16s;
+}
+
+.visionneuse__fleche:hover {
+  background: rgba(239, 228, 214, .12);
+  border-color: rgba(239, 228, 214, .5);
+}
+
+.visionneuse__fleche--gauche  { left: var(--esp-md); }
+.visionneuse__fleche--droite { right: var(--esp-md); }
+
+@media (max-width: 700px) {
+  .galerie { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .visionneuse__fleche { width: 38px; height: 38px; font-size: 24px; }
+  .visionneuse__cadre figcaption { font-size: 13px; }
+}

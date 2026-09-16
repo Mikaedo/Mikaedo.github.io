@@ -1,0 +1,149 @@
+/* L'ouverture de la page : portrait et présentation. */
+
+.ouverture {
+  padding-top: calc(var(--barre-haut) + var(--esp-xl));
+  padding-bottom: var(--esp-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Une teinte chaude très pâle derrière l'ouverture, qui s'efface vers
+   le bas : elle pose le brun sans l'imposer. */
+.ouverture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1100px 620px at 78% 18%,
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 68%);
+  pointer-events: none;
+}
+
+.ouverture__grille {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: var(--esp-2xl);
+  align-items: center;
+}
+
+.ouverture__nom {
+  font-size: clamp(34px, 5vw, 56px);
+  margin-bottom: 12px;
+}
+
+.ouverture__metier {
+  font-size: clamp(17px, 2vw, 21px);
+  color: var(--brun-moyen);
+  font-family: var(--police-titre);
+  margin-bottom: 10px;
+}
+
+.ouverture__metier span { color: var(--trait-fort); }
+
+/* La ligne qui s'écrit lettre à lettre. */
+.ouverture__rotation {
+  font-family: var(--police-mono);
+  font-size: 13.5px;
+  color: var(--encre-tenue);
+  margin-bottom: var(--esp-lg);
+  min-height: 1.7em;
+}
+
+.frappe__curseur {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 3px;
+  vertical-align: -0.12em;
+  animation: clignote 1.05s steps(2, start) infinite;
+}
+
+@keyframes clignote { to { visibility: hidden; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .frappe__curseur { animation: none; }
+}
+
+.ouverture__texte {
+  font-size: 16.5px;
+  line-height: 1.72;
+  color: var(--encre-douce);
+  max-width: 54ch;
+  margin-bottom: var(--esp-xl);
+}
+
+.ouverture__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-sm);
+}
+
+/* ==================================================================
+   Le portrait.
+
+   La photo est détourée sur fond blanc : posée telle quelle sur un
+   fond crème, elle formerait un rectangle blanc qui se détache. Un
+   dégradé sur ses bords la fond dans la page, et le voile chaud du
+   bas la rattache à la palette.
+   ================================================================== */
+.ouverture__portrait {
+  justify-self: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 3 / 4;
+
+  /* Le masque s'applique au conteneur, non à l'image : appliqué à
+     l'image, un object-fit le décale et le fond blanc reparaît sur
+     les bords. */
+  -webkit-mask-image:
+    radial-gradient(118% 100% at 50% 34%, #000 46%, transparent 84%);
+  mask-image:
+    radial-gradient(118% 100% at 50% 34%, #000 46%, transparent 84%);
+}
+
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 16%;
+
+  /* La photo est prise sur fond blanc. Sur un fond crème, ce blanc se
+     remarque : on le réchauffe très légèrement pour qu'il rejoigne la
+     page au lieu de s'en détacher. */
+  filter: sepia(0.09) saturate(1.04) contrast(1.02);
+}
+
+/* Le voile chaud du bas assoit le portrait dans la page. */
+.portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--brun) 22%, transparent) 0%,
+    color-mix(in srgb, var(--brun) 5%, transparent) 24%,
+    transparent 48%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .ouverture {
+    padding-top: calc(var(--barre-haut) + var(--esp-xl));
+  }
+  .ouverture__grille {
+    grid-template-columns: 1fr;
+    gap: var(--esp-xl);
+  }
+  .ouverture__portrait {
+    order: -1;
+    max-width: 260px;
+  }
+}

@@ -1,0 +1,150 @@
+/* La carte d'un projet, dans la grille de l'accueil. */
+
+.carte {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-md);
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+
+.carte:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ombre-md);
+  border-color: var(--trait-fort);
+}
+
+.carte__lien {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- Le visuel -------------------------------------------------- */
+.carte__visuel {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--fond-creux);
+  overflow: hidden;
+  border-bottom: 1px solid var(--trait);
+}
+
+.carte__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  transition: transform .45s ease;
+}
+
+.carte:hover .carte__image { transform: scale(1.03); }
+
+/* Le visuel de remplacement, pour un projet dont les captures ne sont
+   pas encore faites : l'initiale du projet, en grand et en creux. */
+.carte__motif {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-sm);
+  padding: var(--esp-lg);
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--accent) 8%, var(--fond-creux)),
+      var(--fond-creux));
+}
+
+.carte__initiale {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: clamp(56px, 9vw, 86px);
+  line-height: 1;
+  color: color-mix(in srgb, var(--brun-moyen) 26%, transparent);
+}
+
+.carte__mention {
+  font-family: var(--police-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--encre-tenue);
+}
+
+.carte__sceau {
+  position: absolute;
+  top: var(--esp-md);
+  right: var(--esp-md);
+  font-family: var(--police-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--rayon-sm);
+  background: color-mix(in srgb, var(--brun) 86%, transparent);
+  color: var(--blanc);
+  backdrop-filter: blur(4px);
+}
+
+/* --- Le texte --------------------------------------------------- */
+.carte__texte {
+  padding: var(--esp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.carte__cadre {
+  font-family: var(--police-mono);
+  font-size: 11px;
+  color: var(--encre-tenue);
+  letter-spacing: 0.03em;
+}
+
+.carte__nom {
+  font-size: 23px;
+}
+
+.carte__soustitre {
+  font-size: 14.5px;
+  color: var(--brun-moyen);
+  font-weight: 500;
+}
+
+.carte__resume {
+  font-size: 14.5px;
+  color: var(--encre-douce);
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+.carte__piles {
+  margin-top: auto;
+  padding-top: var(--esp-md);
+}
+
+.etiquette--reste {
+  background: transparent;
+  border-style: dashed;
+  color: var(--encre-tenue);
+}
+
+.carte__appel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--esp-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.carte__appel svg {
+  width: 15px; height: 15px;
+  transition: transform .2s ease;
+}
+
+.carte:hover .carte__appel svg { transform: translateX(3px); }

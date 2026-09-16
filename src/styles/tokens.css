@@ -1,0 +1,130 @@
+/* ==================================================================
+   Les couleurs, les graisses et les espacements du site, définis une
+   fois. Tout le reste s'y réfère : changer une valeur ici la change
+   partout, et aucune couleur n'est écrite en dur dans un composant.
+
+   La gamme part du portrait : le blanc de la chemise, le beige du
+   pull, le brun de la cravate.
+   ================================================================== */
+
+:root {
+  /* --- Fonds --------------------------------------------------- */
+  --blanc:        #FFFFFF;
+  --fond:         #FCFAF7;
+  --fond-creux:   #F4EFE8;
+  --fond-carte:   #FFFFFF;
+
+  /* --- Bruns --------------------------------------------------- */
+  --brun-sombre:  #2E2018;
+  --brun:         #4A3426;
+  --brun-moyen:   #6B4B34;
+  --brun-clair:   #8C6B4F;
+  --brun-pale:    #EFE4D8;
+
+  /* --- Texte --------------------------------------------------- */
+  --encre:        #241A13;
+  --encre-douce:  #574438;
+  --encre-tenue:  #8A7767;
+
+  /* --- Traits -------------------------------------------------- */
+  --trait:        #E6DCD0;
+  --trait-fort:   #C9B8A4;
+
+  /* --- Accents ------------------------------------------------- */
+  --accent:       #8C5A32;
+  --accent-clair: #F5E9DC;
+
+  /* --- Typographie ---------------------------------------------
+     Des familles courantes, lisibles, sans effet : Inter pour le
+     texte, Georgia pour les titres, une monospace pour les données.
+     ------------------------------------------------------------- */
+  --police-titre: Georgia, "Times New Roman", serif;
+  --police-texte: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Helvetica, Arial, sans-serif;
+  --police-mono:  "SF Mono", Monaco, Consolas, "Courier New", monospace;
+
+  /* --- Espacements --------------------------------------------- */
+  --esp-xs:  4px;
+  --esp-sm:  8px;
+  --esp-md:  16px;
+  --esp-lg:  24px;
+  --esp-xl:  40px;
+  --esp-2xl: 64px;
+  --esp-3xl: 96px;
+
+  /* --- Rayons et ombres ---------------------------------------- */
+  --rayon-sm: 4px;
+  --rayon-md: 8px;
+  --rayon-lg: 14px;
+
+  --ombre-sm: 0 1px 2px rgba(46, 32, 24, .05),
+              0 4px 12px -6px rgba(46, 32, 24, .10);
+  --ombre-md: 0 2px 4px rgba(46, 32, 24, .06),
+              0 12px 28px -14px rgba(46, 32, 24, .20);
+  --ombre-lg: 0 4px 8px rgba(46, 32, 24, .08),
+              0 24px 56px -24px rgba(46, 32, 24, .32);
+
+  /* --- Mise en page -------------------------------------------- */
+  --largeur-max: 1180px;
+  --barre-haut:  64px;
+}
+
+/* ==================================================================
+   Thème sombre. Le visiteur peut l'avoir choisi, ou le tenir de son
+   système : les deux cas sont traités, sinon la page s'affiche en
+   texte clair sur fond clair chez la moitié des gens.
+   ================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --blanc:        #1A130D;
+    --fond:         #17110C;
+    --fond-creux:   #20180F;
+    --fond-carte:   #221A11;
+
+    --brun-sombre:  #EDDCC6;
+    --brun:         #E0C4A2;
+    --brun-moyen:   #C9A67E;
+    --brun-clair:   #A88763;
+    --brun-pale:    #33261A;
+
+    --encre:        #F4ECE1;
+    --encre-douce:  #C5B29C;
+    --encre-tenue:  #8E7B66;
+
+    --trait:        #392A1D;
+    --trait-fort:   #5A4530;
+
+    --accent:       #C4834F;
+    --accent-clair: #35251A;
+
+    --ombre-sm: 0 1px 2px rgba(0, 0, 0, .34), 0 4px 12px -6px rgba(0, 0, 0, .5);
+    --ombre-md: 0 2px 4px rgba(0, 0, 0, .4),  0 12px 28px -14px rgba(0, 0, 0, .64);
+    --ombre-lg: 0 4px 8px rgba(0, 0, 0, .46), 0 24px 56px -24px rgba(0, 0, 0, .74);
+  }
+}
+
+:root[data-theme="dark"] {
+  --blanc:        #1A130D;
+  --fond:         #17110C;
+  --fond-creux:   #20180F;
+  --fond-carte:   #221A11;
+
+  --brun-sombre:  #EDDCC6;
+  --brun-moyen:   #C9A67E;
+  --brun-clair:   #A88763;
+  --brun-pale:    #33261A;
+
+  --encre:        #F4ECE1;
+  --encre-douce:  #C5B29C;
+  --encre-tenue:  #8E7B66;
+
+  --trait:        #392A1D;
+  --trait-fort:   #5A4530;
+
+  --accent:       #C4834F;
+  --accent-clair: #35251A;
+
+  --ombre-sm: 0 1px 2px rgba(0, 0, 0, .34), 0 4px 12px -6px rgba(0, 0, 0, .5);
+  --ombre-md: 0 2px 4px rgba(0, 0, 0, .4),  0 12px 28px -14px rgba(0, 0, 0, .64);
+  --ombre-lg: 0 4px 8px rgba(0, 0, 0, .46), 0 24px 56px -24px rgba(0, 0, 0, .74);
+}

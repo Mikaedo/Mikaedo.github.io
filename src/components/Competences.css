@@ -1,0 +1,50 @@
+/* Les six domaines de savoir-faire, en colonnes. */
+
+.competences {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: var(--esp-xl) var(--esp-2xl);
+  margin-top: var(--esp-2xl);
+}
+
+.competence__titre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--police-texte);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding-bottom: 10px;
+  margin-bottom: var(--esp-md);
+  border-bottom: 1px solid var(--trait);
+}
+
+.competence__titre .marque { flex: 0 0 auto; }
+
+.competence__liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.competence__liste li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.competence__quoi {
+  font-size: 15px;
+  color: var(--encre);
+}
+
+.competence__precision {
+  font-size: 13px;
+  color: var(--encre-tenue);
+}

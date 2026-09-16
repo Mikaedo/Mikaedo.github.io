@@ -1,0 +1,147 @@
+/* La section de contact : le propos à gauche, le formulaire à droite. */
+
+.contact {
+  background: var(--fond-creux);
+}
+
+.contact__grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-2xl);
+  align-items: start;
+}
+
+/* --- Les coordonnées directes ----------------------------------- */
+.contact__directs {
+  margin-top: var(--esp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact__direct {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-md);
+  padding-block: 12px;
+  border-bottom: 1px solid var(--trait);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .16s;
+}
+
+a.contact__direct:hover { border-bottom-color: var(--accent); }
+
+.contact__etiquette {
+  flex: 0 0 96px;
+  font-family: var(--police-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--encre-tenue);
+}
+
+.contact__valeur {
+  font-size: 15px;
+  color: var(--encre);
+}
+
+a.contact__direct:hover .contact__valeur { color: var(--accent); }
+
+/* --- Le formulaire ---------------------------------------------- */
+.formulaire {
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-md);
+  padding: var(--esp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-md);
+  box-shadow: var(--ombre-sm);
+}
+
+.formulaire__champ {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formulaire__champ label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--encre-douce);
+}
+
+.formulaire__champ input,
+.formulaire__champ textarea {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--encre);
+  background: var(--fond);
+  border: 1px solid var(--trait-fort);
+  border-radius: var(--rayon-sm);
+  padding: 11px 13px;
+  transition: border-color .16s, box-shadow .16s;
+  width: 100%;
+}
+
+.formulaire__champ textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.formulaire__champ input::placeholder,
+.formulaire__champ textarea::placeholder {
+  color: var(--encre-tenue);
+}
+
+.formulaire__champ input:focus,
+.formulaire__champ textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.formulaire__champ [aria-invalid="true"] {
+  border-color: #B4472F;
+}
+
+.formulaire__erreur {
+  font-size: 13px;
+  color: #B4472F;
+}
+
+.formulaire button { align-self: flex-start; }
+
+.formulaire__confirme {
+  font-size: 14px;
+  color: var(--encre-douce);
+  padding: 12px 14px;
+  border-radius: var(--rayon-sm);
+  background: var(--accent-clair);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.formulaire__confirme a { color: var(--accent); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .formulaire__erreur,
+  :root:not([data-theme="light"]) .formulaire__champ [aria-invalid="true"] {
+    color: #E58A6E;
+    border-color: #E58A6E;
+  }
+}
+
+:root[data-theme="dark"] .formulaire__erreur { color: #E58A6E; }
+:root[data-theme="dark"] .formulaire__champ [aria-invalid="true"] {
+  border-color: #E58A6E;
+}
+
+@media (max-width: 900px) {
+  .contact__grille {
+    grid-template-columns: 1fr;
+    gap: var(--esp-xl);
+  }
+  .formulaire { padding: var(--esp-lg); }
+}

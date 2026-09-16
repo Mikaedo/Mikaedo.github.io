@@ -1,0 +1,113 @@
+/* Le bas de page. */
+
+.pied {
+  background: var(--brun-sombre);
+  color: #E8DAC8;
+  padding-top: var(--esp-2xl);
+  padding-bottom: var(--esp-lg);
+}
+
+/* En thème sombre, le brun de fond devient clair : on garde un fond
+   foncé propre au pied plutôt que de suivre le jeton. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pied {
+    background: #120C07;
+    color: #C9B69F;
+  }
+}
+:root[data-theme="dark"] .pied {
+  background: #120C07;
+  color: #C9B69F;
+}
+
+.pied__grille {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(3, 1fr);
+  gap: var(--esp-xl);
+  padding-bottom: var(--esp-2xl);
+}
+
+.pied__identite {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pied__sceau {
+  width: 34px; height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, #E8DAC8 16%, transparent);
+  color: #E8DAC8;
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: 16px;
+  flex: 0 0 auto;
+}
+
+.pied__nom {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 2px;
+}
+
+.pied__metier {
+  font-size: 14px;
+  opacity: .72;
+}
+
+.pied__colonne {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.pied__colonne h3 {
+  font-family: var(--police-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: .55;
+  margin-bottom: 4px;
+}
+
+.pied__colonne a {
+  font-size: 14.5px;
+  color: inherit;
+  text-decoration: none;
+  opacity: .85;
+  transition: opacity .16s, color .16s;
+  width: fit-content;
+}
+
+.pied__colonne a:hover {
+  opacity: 1;
+  color: #DBA26A;
+}
+
+.pied__signature {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--esp-md);
+  padding-top: var(--esp-lg);
+  border-top: 1px solid color-mix(in srgb, #E8DAC8 14%, transparent);
+  font-family: var(--police-mono);
+  font-size: 11.5px;
+  opacity: .6;
+}
+
+@media (max-width: 860px) {
+  .pied__grille {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--esp-lg);
+  }
+  .pied__identite { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .pied__grille { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,163 @@
+/* La barre supérieure, fixée en haut de la fenêtre. */
+
+.barre {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--barre-haut);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background .22s ease, border-color .22s ease,
+              backdrop-filter .22s ease;
+}
+
+/* Dès que la page défile, la barre prend un fond : sans lui, le texte
+   des sections passe derrière et devient illisible. */
+.barre--posee {
+  background: color-mix(in srgb, var(--fond) 90%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--trait);
+}
+
+.barre__contenu {
+  width: 100%;
+  max-width: var(--largeur-max);
+  margin-inline: auto;
+  padding-inline: var(--esp-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-md);
+}
+
+/* --- Le sceau, à gauche ----------------------------------------- */
+.barre__sceau {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--encre);
+}
+
+.barre__initiale {
+  width: 28px; height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--brun);
+  color: var(--blanc);
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+
+.barre__nom {
+  font-family: var(--police-titre);
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* --- Les ancres, au centre -------------------------------------- */
+.barre__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-lg);
+}
+
+.barre__lien {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--encre-douce);
+  text-decoration: none;
+  padding-block: 4px;
+  border-bottom: 1px solid transparent;
+  transition: color .16s, border-color .16s;
+}
+
+.barre__lien:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* --- Les outils, à droite --------------------------------------- */
+.barre__outils {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-sm);
+}
+
+.barre__bouton {
+  width: 34px; height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--trait-fort);
+  border-radius: var(--rayon-sm);
+  background: var(--fond-carte);
+  color: var(--encre-douce);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color .16s, color .16s;
+}
+
+.barre__bouton:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* --- Le menu du téléphone --------------------------------------- */
+.barre__hamburger {
+  display: none;
+  width: 34px; height: 34px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 7px;
+  border: 1px solid var(--trait-fort);
+  border-radius: var(--rayon-sm);
+  background: var(--fond-carte);
+  cursor: pointer;
+}
+
+.barre__hamburger span {
+  display: block;
+  height: 1.5px;
+  background: var(--encre-douce);
+  border-radius: 2px;
+}
+
+@media (max-width: 860px) {
+  .barre__hamburger { display: flex; }
+
+  .barre__nav {
+    position: absolute;
+    top: var(--barre-haut);
+    left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--esp-sm) var(--esp-lg) var(--esp-md);
+    background: var(--fond-carte);
+    border-bottom: 1px solid var(--trait);
+    box-shadow: var(--ombre-md);
+
+    /* Replié par défaut : il se déplie au clic sur le bouton. */
+    display: none;
+  }
+
+  .barre__nav--ouvert { display: flex; }
+
+  .barre__lien {
+    padding-block: 12px;
+    border-bottom: 1px solid var(--trait);
+  }
+
+  .barre__lien:last-child { border-bottom: none; }
+
+  .barre__nom { display: none; }
+}

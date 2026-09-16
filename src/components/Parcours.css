@@ -1,0 +1,95 @@
+/* Le parcours : un fil vertical relie les étapes. */
+
+.parcours {
+  margin-top: var(--esp-2xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.etape {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: var(--esp-xl);
+  padding-block: var(--esp-lg);
+  position: relative;
+}
+
+/* Le fil qui joint une étape à la suivante. */
+.etape:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 32px;
+  bottom: -8px;
+  width: 1px;
+  background: var(--trait);
+}
+
+.etape__quand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--police-mono);
+  font-size: 12.5px;
+  color: var(--encre-tenue);
+  padding-top: 4px;
+}
+
+.etape__point {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--fond);
+  border: 2px solid var(--accent);
+  flex: 0 0 auto;
+  margin-left: -0.5px;
+}
+
+.etape__titre {
+  font-size: 18px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.etape__mention {
+  font-family: var(--police-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: var(--rayon-sm);
+  background: var(--brun);
+  color: var(--blanc);
+  white-space: nowrap;
+}
+
+.etape__lieu {
+  font-size: 14.5px;
+  color: var(--brun-moyen);
+  margin-bottom: 8px;
+}
+
+.etape__texte {
+  font-size: 15px;
+  color: var(--encre-douce);
+  max-width: 62ch;
+}
+
+@media (max-width: 760px) {
+  .etape {
+    grid-template-columns: 1fr;
+    gap: var(--esp-sm);
+    padding-left: var(--esp-lg);
+  }
+  .etape:not(:last-child)::before {
+    left: 4px;
+    top: 30px;
+  }
+  .etape__quand {
+    margin-left: calc(-1 * var(--esp-lg));
+  }
+}

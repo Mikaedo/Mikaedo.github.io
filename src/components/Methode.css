@@ -1,0 +1,123 @@
+/* Le schéma de la chaîne hors ligne. */
+
+.methode {
+  margin-top: var(--esp-2xl);
+  background: var(--fond-creux);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-md);
+  padding: var(--esp-xl);
+}
+
+.methode__chaine {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.methode__bloc-et-lien {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.methode__bloc {
+  flex: 1 1 auto;
+  min-width: 128px;
+  background: var(--fond-carte);
+  border: 1px solid var(--trait-fort);
+  border-radius: var(--rayon-sm);
+  padding: var(--esp-md);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* La file locale porte l'idée du dispositif : elle est mise en avant. */
+.methode__bloc--accent {
+  background: var(--accent-clair);
+  border-color: var(--accent);
+}
+
+.methode__bloc h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.methode__bloc span {
+  font-family: var(--police-mono);
+  font-size: 11px;
+  color: var(--encre-tenue);
+}
+
+.methode__lien {
+  position: relative;
+  flex: 0 0 auto;
+  padding-inline: 8px;
+  color: var(--trait-fort);
+  display: grid;
+  place-items: center;
+}
+
+.methode__lien svg {
+  width: 48px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.methode__quand {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--police-mono);
+  font-size: 10px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.methode__lien--differe { color: var(--accent); }
+
+.methode__notes {
+  margin-top: var(--esp-xl);
+  padding-top: var(--esp-md);
+  border-top: 1px solid var(--trait);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.methode__notes p {
+  font-size: 14.5px;
+  color: var(--encre-douce);
+  max-width: 78ch;
+}
+
+/* Sur écran étroit, la chaîne se lit de haut en bas : les flèches
+   tournent d'un quart de tour plutôt que de déborder. */
+@media (max-width: 820px) {
+  .methode__chaine {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .methode__bloc-et-lien {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .methode__lien {
+    padding-block: 10px;
+    padding-inline: 0;
+    transform: rotate(90deg);
+    height: 44px;
+  }
+  .methode__quand {
+    bottom: auto;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+  }
+}
