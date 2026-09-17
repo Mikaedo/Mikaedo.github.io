@@ -92,46 +92,28 @@
 .ouverture__portrait {
   justify-self: center;
   width: 100%;
-  max-width: 360px;
+  max-width: 340px;
+  /* Rien ne borne la hauteur : le portrait détouré se déploie en
+     entier, épaules comprises. */
 }
 
+/* Le portrait est détouré : plus de cadre ni de masque, il se pose
+   directement sur la page. C'est le cadre qui formait le rectangle
+   blanc qu'on voyait encore. */
 .portrait {
   position: relative;
-  aspect-ratio: 3 / 4;
-
-  /* Le masque s'applique au conteneur, non à l'image : appliqué à
-     l'image, un object-fit le décale et le fond blanc reparaît sur
-     les bords. */
-  -webkit-mask-image:
-    radial-gradient(118% 100% at 50% 34%, #000 46%, transparent 84%);
-  mask-image:
-    radial-gradient(118% 100% at 50% 34%, #000 46%, transparent 84%);
 }
 
 .portrait img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 16%;
+  height: auto;
+  display: block;
 
-  /* La photo est prise sur fond blanc. Sur un fond crème, ce blanc se
-     remarque : on le réchauffe très légèrement pour qu'il rejoigne la
-     page au lieu de s'en détacher. */
-  filter: sepia(0.09) saturate(1.04) contrast(1.02);
-}
-
-/* Le voile chaud du bas assoit le portrait dans la page. */
-.portrait::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--brun) 22%, transparent) 0%,
-    color-mix(in srgb, var(--brun) 5%, transparent) 24%,
-    transparent 48%
-  );
-  pointer-events: none;
+  /* Une ombre portée qui suit le contour du sujet, et non un rectangle :
+     elle pose le portrait sur la page sans le cerner. */
+  filter:
+    drop-shadow(0 18px 28px color-mix(in srgb, var(--brun) 22%, transparent))
+    drop-shadow(0 2px 4px color-mix(in srgb, var(--brun) 14%, transparent));
 }
 
 @media (max-width: 900px) {

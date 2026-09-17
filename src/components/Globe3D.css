@@ -1,0 +1,31 @@
+/* Le globe, en fond de l'ouverture. */
+
+.globe3d {
+  position: absolute;
+  top: -8%;
+  right: -6%;
+  width: min(560px, 54%);
+  aspect-ratio: 1 / 1;
+  z-index: 0;
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+.globe3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 900px) {
+  /* Sur écran étroit, le globe passe en fond discret : il ne doit pas
+     disputer la place au portrait ni au texte. */
+  .globe3d {
+    top: auto;
+    bottom: -12%;
+    right: -18%;
+    width: min(420px, 78%);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}

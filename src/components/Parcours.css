@@ -1,7 +1,42 @@
-/* Le parcours : un fil vertical relie les étapes. */
+/* Le parcours : le personnage à gauche, la chronologie à droite. */
 
-.parcours {
+.parcours-grille {
   margin-top: var(--esp-2xl);
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: var(--esp-2xl);
+  align-items: start;
+}
+
+/* --- Le guide, qui suit la lecture ------------------------------ */
+.parcours__guide {
+  position: sticky;
+  top: calc(var(--barre-haut) + var(--esp-xl));
+  align-self: start;
+}
+
+.parcours__personnage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-sm);
+}
+
+.parcours__annee {
+  font-family: var(--police-mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  padding: 5px 14px;
+  border: 1px solid var(--trait-fort);
+  border-radius: 999px;
+  background: var(--fond-carte);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- La chronologie --------------------------------------------- */
+.parcours {
   display: flex;
   flex-direction: column;
 }
@@ -12,6 +47,7 @@
   gap: var(--esp-xl);
   padding-block: var(--esp-lg);
   position: relative;
+  transition: opacity .3s ease;
 }
 
 /* Le fil qui joint une étape à la suivante. */
@@ -40,10 +76,20 @@
   height: 9px;
   border-radius: 50%;
   background: var(--fond);
-  border: 2px solid var(--accent);
+  border: 2px solid var(--trait-fort);
   flex: 0 0 auto;
   margin-left: -0.5px;
+  transition: border-color .3s ease, transform .3s ease;
 }
+
+/* L'étape en cours de lecture se marque, sans que les autres
+   s'effacent : le lecteur doit pouvoir parcourir toute la liste. */
+.etape--lue .etape__point {
+  border-color: var(--accent);
+  transform: scale(1.35);
+}
+
+.etape--lue .etape__quand { color: var(--accent); }
 
 .etape__titre {
   font-size: 18px;
@@ -67,6 +113,14 @@
   white-space: nowrap;
 }
 
+/* Une compétition se distingue d'un diplôme : la mention y est
+   creuse plutôt que pleine. */
+.etape--concours .etape__mention {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
 .etape__lieu {
   font-size: 14.5px;
   color: var(--brun-moyen);
@@ -79,17 +133,33 @@
   max-width: 62ch;
 }
 
+@media (max-width: 900px) {
+  .parcours-grille {
+    grid-template-columns: 1fr;
+    gap: var(--esp-lg);
+  }
+  /* Sur écran étroit, le personnage passe en bandeau au-dessus. */
+  .parcours__guide {
+    position: relative;
+    top: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .parcours__personnage {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--esp-md);
+    width: auto;
+  }
+  .parcours__personnage .avatar3d { width: 96px; }
+}
+
 @media (max-width: 760px) {
   .etape {
     grid-template-columns: 1fr;
     gap: var(--esp-sm);
     padding-left: var(--esp-lg);
   }
-  .etape:not(:last-child)::before {
-    left: 4px;
-    top: 30px;
-  }
-  .etape__quand {
-    margin-left: calc(-1 * var(--esp-lg));
-  }
+  .etape:not(:last-child)::before { left: 4px; top: 30px; }
+  .etape__quand { margin-left: calc(-1 * var(--esp-lg)); }
 }

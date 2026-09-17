@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { competences } from '../data/profil';
 import Marque from './Marque';
+import Technos3D from './Technos3D';
 import './Competences.css';
 
 /**
@@ -18,6 +19,8 @@ export default function Competences() {
           Chaque ligne a été mise en œuvre sur un projet livré, non
           seulement étudiée.
         </p>
+
+        <Technos3D />
 
         <div className="competences">
           {competences.map((groupe, i) => (

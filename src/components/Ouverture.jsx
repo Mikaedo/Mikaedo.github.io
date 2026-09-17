@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { profil } from '../data/profil';
 import Frappe from './Frappe';
+import Globe3D from './Globe3D';
 import './Ouverture.css';
 
 /**
@@ -18,6 +19,9 @@ export default function Ouverture() {
 
   return (
     <section className="ouverture" id="haut">
+      {/* Le globe se pose derrière l'ouverture, centré sur Abidjan. */}
+      <Globe3D />
+
       <div className="contenu ouverture__grille">
 
         <div className="ouverture__propos">

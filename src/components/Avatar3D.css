@@ -1,0 +1,13 @@
+/* Le personnage qui suit le parcours. */
+
+.avatar3d {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+}
+
+.avatar3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

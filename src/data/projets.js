@@ -22,6 +22,22 @@ import miniTableau      from '../assets/images/web-tableau-mini.jpg';
 import miniSatellite    from '../assets/images/web-satellite-mini.jpg';
 import miniAdmin        from '../assets/images/web-admin-mini.jpg';
 
+import weciteTableau   from '../assets/images/wecite-tableau.jpg';
+import weciteResidents from '../assets/images/wecite-residents.jpg';
+import weciteIncidents from '../assets/images/wecite-incidents.jpg';
+import weciteFinances  from '../assets/images/wecite-finances.jpg';
+import weciteCarte     from '../assets/images/wecite-carte.jpg';
+import weciteReglement from '../assets/images/wecite-reglement.jpg';
+import weciteConnexion from '../assets/images/wecite-connexion.jpg';
+import miniWecite      from '../assets/images/wecite-tableau-mini.jpg';
+
+import biblioTableau   from '../assets/images/biblio-admin-tableau.jpg';
+import biblioUsagers   from '../assets/images/biblio-admin-utilisateurs.jpg';
+import biblioMotsPasse from '../assets/images/biblio-admin-motsdepasse.jpg';
+import biblioJournaux  from '../assets/images/biblio-admin-journaux.jpg';
+import biblioConnexion from '../assets/images/biblio-connexion.jpg';
+import miniBiblio      from '../assets/images/biblio-admin-tableau-mini.jpg';
+
 import agentListe      from '../assets/images/agent-liste.jpg';
 import agentCarte      from '../assets/images/agent-carte.jpg';
 import agentDetail     from '../assets/images/agent-detail.jpg';
@@ -40,8 +56,8 @@ export const projets = [
     cadre: 'AGEROUTE · Cellule de Coordination du PTUA',
     periode: 'Juillet – septembre 2026',
     role: 'Conception et développement',
-    couverture: miniTableau,
-    accroche: webTableau,
+    couverture: miniSatellite,
+    accroche: webSatellite,
     lien: 'https://github.com/Mikaedo/si-env-ptua',
     prive: false,
     piles: ['Flutter', 'FastAPI', 'PostgreSQL / PostGIS', 'YOLOv8n',
@@ -182,8 +198,16 @@ export const projets = [
       "de son périmètre fonctionnel, mais n'a pas encore été exploitée " +
       "sur une saison complète de cotisations.",
 
-    ecrans: [],
-    note: null
+    ecrans: [
+      { image: weciteTableau,   legende: "Vue d'ensemble : trésorerie, taux de recouvrement, incidents à suivre et courbe des encaissements." },
+      { image: weciteResidents, legende: "Annuaire des résidents, avec leur villa et leur rôle." },
+      { image: weciteIncidents, legende: "Suivi des incidents déclarés, par priorité et par statut." },
+      { image: weciteFinances,  legende: "Cotisations : qui a payé, qui est en retard, par quel moyen." },
+      { image: weciteCarte,     legende: "Cartographie de la cité et localisation des résidents." },
+      { image: weciteReglement, legende: "Règlement intérieur, consultable par tous les résidents." },
+      { image: weciteConnexion, legende: "Écran de connexion de l'espace d'administration." }
+    ],
+    note: "Les données affichées sur ces captures sont inventées."
   },
 
   {
@@ -232,8 +256,14 @@ export const projets = [
       "s'arrête au prêt et au retour : ni réservation à distance ni " +
       "statistiques de consultation.",
 
-    ecrans: [],
-    note: null
+    ecrans: [
+      { image: biblioTableau,   legende: "Tableau de bord : répartition du fonds par catalogue, usagers par rôle, alertes de retard." },
+      { image: biblioUsagers,   legende: "Gestion des comptes : étudiants, bibliothécaires et administrateurs." },
+      { image: biblioMotsPasse, legende: "Demandes de réinitialisation de mot de passe, validées par un administrateur." },
+      { image: biblioJournaux,  legende: "Journal d'audit : chaque opération laisse une trace horodatée." },
+      { image: biblioConnexion, legende: "Écran de connexion, compilé par Flutter pour le navigateur." }
+    ],
+    note: "Les données affichées sur ces captures sont inventées."
   }
 ];
 

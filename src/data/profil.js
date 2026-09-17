@@ -5,16 +5,17 @@
  * n'est écrit en dur dans le rendu.
  */
 
-import portrait from '../assets/images/portrait.jpg';
+import portrait from '../assets/images/portrait-detoure.webp';
 
 export const profil = {
   prenom: "N'Guessan Diby",
   nom: 'Konanbouo Georges Mikaël',
   metier: 'Ingénieur logiciel',
   specialite: "Systèmes d'information métier",
-  ville: 'Abidjan, Côte d\'Ivoire',
+  ville: 'Abidjan / Bingerville, Côte d\'Ivoire',
   portrait,
-  courriel: 'bediabate@ageroute.ci',
+  courriel: 'Mikaedoking@gmail.com',
+  telephone: '01 43 84 44 24',
   github: 'https://github.com/Mikaedo',
 
   /* La phrase qui s'écrit lettre à lettre sous le nom. */
@@ -102,32 +103,103 @@ export const competences = [
 
 export const parcours = [
   {
+    annee: 2026,
     periode: '2026',
     titre: 'Licence MIAGE',
     distinction: 'Mention très bien · 16,5',
     lieu: 'Université Polytechnique de Bingerville',
+    genre: 'diplome',
     texte:
       "Méthodes Informatiques Appliquées à la Gestion des Entreprises. " +
       "Mémoire : conception et réalisation du SI-ENV, soutenu devant un " +
       "jury présidé par le Dr Keupondjo Armel."
   },
   {
-    periode: 'Mai – août 2026',
-    titre: 'Stage — conception du SI-ENV',
+    annee: 2026,
+    periode: 'Mai 2026 – aujourd\'hui',
+    titre: 'Développeur — SI-ENV',
     distinction: null,
     lieu: 'AGEROUTE · Cellule de Coordination du PTUA',
+    genre: 'travail',
     texte:
-      "Affecté au Service Études et Développement d'Applications, puis à la " +
-      "Cellule Informatique et Logistique du projet. Conception complète du " +
-      "système, du modèle de données au déploiement conteneurisé."
+      "Conception de solutions logicielles et structuration des données " +
+      "d'infrastructures. Affecté au Service Études et Développement " +
+      "d'Applications, puis à la Cellule Informatique et Logistique du " +
+      "projet : du modèle de données au déploiement conteneurisé."
   },
   {
+    annee: 2026,
+    periode: 'Février 2026',
+    titre: 'Huawei ICT Competition',
+    distinction: 'Phase nationale',
+    lieu: 'Côte d\'Ivoire',
+    genre: 'concours',
+    texte:
+      "Qualifié pour la deuxième phase de la compétition, au niveau national."
+  },
+  {
+    annee: 2026,
+    periode: '2026',
+    titre: 'CDCI Capital & Challenge Orange',
+    distinction: null,
+    lieu: 'Abidjan',
+    genre: 'concours',
+    texte:
+      "Challenges d'innovation, et prototypage de la solution logicielle " +
+      "« Ora »."
+  },
+  {
+    annee: 2026,
     periode: 'Janvier – mai 2026',
     titre: 'Projet Bibliothèque UPB',
     distinction: null,
     lieu: 'Université Polytechnique de Bingerville',
+    genre: 'projet',
     texte:
       "Application de gestion du fonds documentaire, en équipe. Mise en " +
       "place des conventions de commit et du flux Git."
+  },
+  {
+    annee: 2025,
+    periode: 'Juillet 2025',
+    titre: 'Habihack — Google AI Hackathon',
+    distinction: 'Projet AquaSense IA',
+    lieu: 'Abidjan',
+    genre: 'concours',
+    texte:
+      "Architecture d'intelligence artificielle prédictive pour le suivi " +
+      "de la qualité de l'eau."
+  },
+  {
+    annee: 2024,
+    periode: 'Août 2024',
+    titre: 'Développeur (stagiaire)',
+    distinction: null,
+    lieu: 'SATI Group · Abidjan',
+    genre: 'travail',
+    texte:
+      "Intégration d'une reconnaissance optique de caractères dans " +
+      "Oracle APEX."
+  },
+  {
+    annee: 2024,
+    periode: '2024 – 2026',
+    titre: 'Licence Génie Logiciel',
+    distinction: null,
+    lieu: 'ESETEC · École Supérieure de l\'Enseignement Technique',
+    genre: 'diplome',
+    texte:
+      "Menée en parallèle de la licence MIAGE."
+  },
+  {
+    annee: 2023,
+    periode: '2022 – 2023',
+    titre: 'Baccalauréat série D',
+    distinction: null,
+    lieu: 'Cours Secondaire Méthodiste, Plateau',
+    genre: 'diplome',
+    texte:
+      "Série scientifique, à dominante mathématiques et sciences " +
+      "de la vie."
   }
 ];

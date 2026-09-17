@@ -4,3 +4,8 @@ captures/site
 captures/node_modules
 *.local
 .DS_Store
+captures/wecite-site
+captures/biblio-site
+captures/jeton_wecite.txt
+avatar/face_landmarker.task
+avatar/controle_*.jpg
