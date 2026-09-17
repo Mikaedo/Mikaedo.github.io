@@ -106,7 +106,6 @@ export const parcours = [
     annee: 2026,
     periode: '2026',
     titre: 'Licence MIAGE',
-    distinction: 'Mention très bien · 16,5',
     lieu: 'Université Polytechnique de Bingerville',
     genre: 'diplome',
     texte:
@@ -117,8 +116,7 @@ export const parcours = [
   {
     annee: 2026,
     periode: 'Mai 2026 – aujourd\'hui',
-    titre: 'Développeur — SI-ENV',
-    distinction: null,
+    titre: 'Développeur · SI-ENV',
     lieu: 'AGEROUTE · Cellule de Coordination du PTUA',
     genre: 'travail',
     texte:
@@ -131,7 +129,6 @@ export const parcours = [
     annee: 2026,
     periode: 'Février 2026',
     titre: 'Huawei ICT Competition',
-    distinction: 'Phase nationale',
     lieu: 'Côte d\'Ivoire',
     genre: 'concours',
     texte:
@@ -141,7 +138,6 @@ export const parcours = [
     annee: 2026,
     periode: '2026',
     titre: 'CDCI Capital & Challenge Orange',
-    distinction: null,
     lieu: 'Abidjan',
     genre: 'concours',
     texte:
@@ -152,7 +148,6 @@ export const parcours = [
     annee: 2026,
     periode: 'Janvier – mai 2026',
     titre: 'Projet Bibliothèque UPB',
-    distinction: null,
     lieu: 'Université Polytechnique de Bingerville',
     genre: 'projet',
     texte:
@@ -162,8 +157,7 @@ export const parcours = [
   {
     annee: 2025,
     periode: 'Juillet 2025',
-    titre: 'Habihack — Google AI Hackathon',
-    distinction: 'Projet AquaSense IA',
+    titre: 'Habihack · Google AI Hackathon',
     lieu: 'Abidjan',
     genre: 'concours',
     texte:
@@ -174,7 +168,6 @@ export const parcours = [
     annee: 2024,
     periode: 'Août 2024',
     titre: 'Développeur (stagiaire)',
-    distinction: null,
     lieu: 'SATI Group · Abidjan',
     genre: 'travail',
     texte:
@@ -185,7 +178,6 @@ export const parcours = [
     annee: 2024,
     periode: '2024 – 2026',
     titre: 'Licence Génie Logiciel',
-    distinction: null,
     lieu: 'ESETEC · École Supérieure de l\'Enseignement Technique',
     genre: 'diplome',
     texte:
@@ -195,7 +187,6 @@ export const parcours = [
     annee: 2023,
     periode: '2022 – 2023',
     titre: 'Baccalauréat série D',
-    distinction: null,
     lieu: 'Cours Secondaire Méthodiste, Plateau',
     genre: 'diplome',
     texte:

@@ -28,7 +28,6 @@ export default function Pied() {
 
         <nav className="pied__colonne">
           <h3>Le site</h3>
-          <a href="/#chiffres">En bref</a>
           <a href="/#competences">Savoir-faire</a>
           <a href="/#parcours">Parcours</a>
           <a href="/#contact">Contact</a>

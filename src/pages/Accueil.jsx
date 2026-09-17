@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import Ouverture from '../components/Ouverture';
 import CarteProjet from '../components/CarteProjet';
-import Chiffres from '../components/Chiffres';
 import Competences from '../components/Competences';
 import Parcours from '../components/Parcours';
 import Contact from '../components/Contact';
@@ -32,7 +31,6 @@ export default function Accueil() {
         </div>
       </section>
 
-      <Chiffres />
       <Competences />
       <Parcours />
       <Contact />

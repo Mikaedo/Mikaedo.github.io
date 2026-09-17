@@ -47,9 +47,9 @@ export default function Contact() {
       return;
     }
 
-    const sujet = `Portfolio — message de ${champs.nom}`;
+    const sujet = `Portfolio : message de ${champs.nom}`;
     const corps =
-      `${champs.message}\n\n— ${champs.nom}\n${champs.courriel}`;
+      `${champs.message}\n\n${champs.nom}\n${champs.courriel}`;
 
     window.location.href =
       `mailto:${profil.courriel}` +

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { parcours } from '../data/profil';
-import Avatar3D from './Avatar3D';
+import Bitmoji from './Bitmoji';
 import './Parcours.css';
 
 /**
@@ -73,7 +73,7 @@ export default function Parcours() {
               className="parcours__personnage"
               style={{ '--avancement': avancement }}
             >
-              <Avatar3D avancement={avancement} />
+              <Bitmoji avancement={avancement} />
               <div className="parcours__annee">{anneeCourante}</div>
             </div>
           </div>
@@ -94,12 +94,7 @@ export default function Parcours() {
                 </div>
 
                 <div className="etape__corps">
-                  <h3 className="etape__titre">
-                    {e.titre}
-                    {e.distinction && (
-                      <span className="etape__mention">{e.distinction}</span>
-                    )}
-                  </h3>
+                  <h3 className="etape__titre">{e.titre}</h3>
                   <p className="etape__lieu">{e.lieu}</p>
                   <p className="etape__texte">{e.texte}</p>
                 </div>

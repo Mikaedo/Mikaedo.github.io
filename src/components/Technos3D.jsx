@@ -168,7 +168,13 @@ export default function Technos3D() {
 
       cubes.forEach((c) => {
         const actif = c.userData.rang === vise;
-        const cibleRot = actif ? 0 : temps + c.userData.phase;
+        /* Un balancement plutôt qu'un tour complet : le logo reste
+           lisible en permanence. Une rotation continue laisserait
+           chaque cube de profil, puis de dos, une bonne partie du
+           temps, et la rangée paraîtrait dépareillée. */
+        const cibleRot = actif
+          ? 0
+          : Math.sin(temps * 2.2 + c.userData.phase) * 0.42;
         const cibleZ = actif ? 0.8 : 0;
         const cibleE = actif ? 1.18 : 1;
 

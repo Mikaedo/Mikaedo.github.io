@@ -1,0 +1,73 @@
+/* Le personnage du parcours, en deux morceaux.
+
+   Les décalages viennent du découpage : la tête a été prise à 30 % de
+   la largeur de l'image entière, le buste à 16 %, d'où ces 20 % de la
+   largeur du buste. Les recalculer à l'œil donnerait un cou décalé. */
+
+.bitmoji {
+  position: relative;
+  width: 100%;
+  max-width: 190px;
+  margin-inline: auto;
+  /* La tête déborde du buste de 25 % de sa hauteur vers le haut. Un
+     retrait en pourcentage se calcule sur la largeur, pas la hauteur :
+     il faut donc le convertir par le rapport du buste,
+     25 % x 1007 / 323 = 77,9 %. Sans cette conversion la tête sort du
+     cadre et recouvre le titre de la section. */
+  padding-top: 77.9%;
+}
+
+.bitmoji__cadre {
+  position: relative;
+  width: 100%;
+  /* Le rapport du buste : sans lui, la tête flotterait pendant le
+     chargement de l'image. */
+  aspect-ratio: 323 / 1007;
+}
+
+.bitmoji__corps {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: 50% 100%;   /* le buste respire depuis les pieds */
+  will-change: transform;
+}
+
+.bitmoji__tete {
+  position: absolute;
+  left: 20%;                    /* mesuré sur le découpage */
+  top: -25%;
+  width: 57.1%;
+  height: auto;
+  transform-origin: 50% 88%;    /* la tête pivote depuis le cou */
+  will-change: transform;
+}
+
+/* Une ombre douce sous les pieds : elle pose le personnage sur la
+   page au lieu de le laisser flotter. */
+.bitmoji::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -2%;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--brun) 26%, transparent),
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .bitmoji { max-width: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bitmoji__corps,
+  .bitmoji__tete { transform: none !important; }
+}

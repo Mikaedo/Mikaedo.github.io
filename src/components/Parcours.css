@@ -100,27 +100,6 @@
   margin-bottom: 4px;
 }
 
-.etape__mention {
-  font-family: var(--police-mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 9px;
-  border-radius: var(--rayon-sm);
-  background: var(--brun);
-  color: var(--blanc);
-  white-space: nowrap;
-}
-
-/* Une compétition se distingue d'un diplôme : la mention y est
-   creuse plutôt que pleine. */
-.etape--concours .etape__mention {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-}
-
 .etape__lieu {
   font-size: 14.5px;
   color: var(--brun-moyen);
@@ -151,7 +130,7 @@
     gap: var(--esp-md);
     width: auto;
   }
-  .parcours__personnage .avatar3d { width: 96px; }
+  .parcours__personnage .bitmoji { width: 96px; }
 }
 
 @media (max-width: 760px) {

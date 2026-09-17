@@ -1,37 +1,19 @@
-/* La grille des projets sur la page d'accueil. */
+/* La grille des projets sur la page d'accueil.
+
+   Les trois fiches ont la même forme : la capture au-dessus, le texte
+   en dessous. Traiter la première à part, en pleine largeur, la
+   faisait paraître écrasante et les deux autres secondaires. */
 
 .grille-projets {
   margin-top: var(--esp-2xl);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
   gap: var(--esp-lg);
   align-items: stretch;
 }
 
-/* Le premier projet occupe toute la largeur : c'est le plus abouti,
-   et sa capture mérite d'être vue en grand. */
-@media (min-width: 900px) {
-  .grille-projets > :first-child {
-    grid-column: 1 / -1;
-  }
-
-  .grille-projets > :first-child .carte__lien {
-    flex-direction: row;
-  }
-
-  .grille-projets > :first-child .carte__visuel {
-    flex: 0 0 54%;
-    aspect-ratio: auto;
-    border-bottom: none;
-    border-right: 1px solid var(--trait);
-  }
-
-  .grille-projets > :first-child .carte__texte {
-    padding: var(--esp-xl);
-    justify-content: center;
-  }
-
-  .grille-projets > :first-child .carte__nom {
-    font-size: 30px;
-  }
+@media (min-width: 1000px) {
+  /* Trois colonnes exactement : « auto-fit » en donnerait deux avec
+     un trou, le troisième projet se retrouvant seul sur sa ligne. */
+  .grille-projets { grid-template-columns: repeat(3, 1fr); }
 }

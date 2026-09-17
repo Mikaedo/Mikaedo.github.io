@@ -33,7 +33,6 @@ export default function Barre() {
 
   const liens = [
     { id: 'projets',    texte: 'Projets' },
-    { id: 'chiffres',   texte: 'En bref' },
     { id: 'competences', texte: 'Savoir-faire' },
     { id: 'parcours',   texte: 'Parcours' },
     { id: 'contact',    texte: 'Contact' }
