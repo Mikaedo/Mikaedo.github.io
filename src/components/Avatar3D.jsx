@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import maillage from '../data/maillageVisage.json';
 import texture from '../assets/images/visage-texture.jpg';
 import { visage } from '../data/avatar';
+import { bitmoji } from '../data/bitmoji';
 import './Avatar3D.css';
 
 /**
@@ -38,7 +40,52 @@ export default function Avatar3D({ avancement = 0 }) {
     scene.add(groupe);
 
     // ---------------------------------------------------------------
-    // Le maillage du visage
+    // Un modèle Ready Player Me, s'il en existe un.
+    //
+    // Il arrive en pied : on le cadre sur le buste, et l'on masque le
+    // maillage du visage qui servait de solution d'attente.
+    // ---------------------------------------------------------------
+    let modeleCharge = false;
+
+    if (bitmoji.modele) {
+      const chargeur = new GLTFLoader();
+      chargeur.load(
+        bitmoji.modele,
+        (gltf) => {
+          modeleCharge = true;
+          groupe.clear();
+
+          const personnage = gltf.scene;
+          const c = bitmoji.cadrage;
+
+          /* Le modèle est livré debout, à l'échelle humaine : on le
+             remonte pour cadrer sur le visage et les épaules. */
+          personnage.position.y = -c.hauteurVisee;
+          personnage.traverse((o) => {
+            if (o.isMesh) {
+              o.castShadow = false;
+              o.receiveShadow = false;
+              /* Les cheveux et les vêtements arrivent parfois en
+                 double face : on garde la face avant, plus propre. */
+              if (o.material) o.material.side = THREE.FrontSide;
+            }
+          });
+
+          groupe.add(personnage);
+          camera.position.set(0, 0, c.distance * 3.2);
+          camera.lookAt(0, 0, 0);
+        },
+        undefined,
+        () => {
+          /* Le modèle n'a pas pu être chargé : le maillage du visage
+             reste affiché, personne ne voit une vignette vide. */
+          modeleCharge = false;
+        }
+      );
+    }
+
+    // ---------------------------------------------------------------
+    // Le maillage du visage, à défaut de modèle
     // ---------------------------------------------------------------
     const geometrie = new THREE.BufferGeometry();
     geometrie.setAttribute('position',
