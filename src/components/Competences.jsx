@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { competences } from '../data/profil';
+import Decor from './Decor';
 import Marque from './Marque';
 import Outil from './Outil';
 import Technos3D from './Technos3D';
@@ -16,7 +17,11 @@ import './Competences.css';
  */
 export default function Competences() {
   return (
-    <section className="section" id="competences">
+    <section className="section a-decor" id="competences">
+      {/* Un réseau de points qui se relient : les outils ne valent
+          que par ce qu'ils relient entre eux. */}
+      <Decor genre="trame" />
+
       <div className="contenu">
         <p className="surtitre">Savoir-faire</p>
         <h2 className="titre-section">Ce que je sais faire</h2>

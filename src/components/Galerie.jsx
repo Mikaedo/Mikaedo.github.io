@@ -50,15 +50,33 @@ export default function Galerie({ ecrans, note }) {
     <>
       <div className="galerie">
         {ecrans.map((e, i) => (
+          /* Les vignettes arrivent inclinées dans l'espace et se
+             redressent : elles se présentent comme des écrans posés
+             devant le lecteur, non comme des images dans une grille.
+             L'inclinaison alterne d'un côté à l'autre, sinon la
+             rangée entière penche du même bord. */
           <motion.button
             key={i}
             type="button"
             className={`galerie__vignette ${e.mobile ? 'galerie__vignette--mobile' : ''}`}
             onClick={() => setOuvert(i)}
-            initial={{ opacity: 0.001, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0.001,
+              y: 34,
+              rotateX: 16,
+              rotateY: i % 2 ? -13 : 13,
+              scale: 0.93
+            }}
+            whileInView={{
+              opacity: 1, y: 0, rotateX: 0, rotateY: 0, scale: 1
+            }}
+            whileHover={{ scale: 1.035, rotateX: -3 }}
             viewport={{ once: true, amount: 0.05, margin: '200px 0px' }}
-            transition={{ duration: 0.4, delay: Math.min(i, 6) * 0.05 }}
+            transition={{
+              duration: 0.62,
+              delay: Math.min(i, 6) * 0.07,
+              ease: [0.22, 1, 0.36, 1]
+            }}
             aria-label={`Agrandir : ${e.legende}`}
           >
             <img src={e.image} alt={e.legende} loading="lazy" />

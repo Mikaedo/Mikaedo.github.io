@@ -1,0 +1,34 @@
+/* Une image qu'on traverse en descendant.
+
+   Le cadre coupe : c'est lui qui reste fixe pendant que l'image
+   glisse et se recule à l'intérieur. Sans cette coupe, l'image
+   agrandie déborderait sur ce qui l'entoure. */
+
+.focale {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.focale__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+
+/* Le mouvement se lit sur un grand écran, où le cadre et ce qui
+   l'entoure sont visibles ensemble. Sur un téléphone l'image occupe
+   toute la largeur, le glissement ne se perçoit plus et coûte des
+   images par seconde. */
+@media (max-width: 760px) {
+  .focale__image { transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focale__image { transform: none !important; }
+}

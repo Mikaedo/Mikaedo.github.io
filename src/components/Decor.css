@@ -1,0 +1,64 @@
+/* Le décor d'une section, peint derrière son contenu.
+
+   Il reste discret : c'est un lieu où se pose la lecture, pas une
+   image à regarder. Le contenu doit rester parfaitement lisible
+   par-dessus, dans les deux thèmes. */
+
+.decor {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Le décor s'efface vers les bords : sans ce fondu, la toile finit
+   sur une arête nette et se lit comme une image collée. */
+.decor--machine {
+  opacity: 0.55;
+  mask-image: radial-gradient(
+    120% 90% at 50% 30%, #000 38%, transparent 82%
+  );
+}
+
+.decor--trame {
+  opacity: 0.6;
+  mask-image: linear-gradient(
+    to bottom, transparent, #000 18%, #000 78%, transparent
+  );
+}
+
+.decor--piece {
+  opacity: 1;
+  mask-image: radial-gradient(
+    130% 100% at 22% 45%, #000 48%, transparent 92%
+  );
+}
+
+/* Sur fond sombre le décor se détache davantage : on le retient. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .decor { opacity: 0.4; }
+}
+
+:root[data-theme="dark"] .decor { opacity: 0.4; }
+
+/* Sur un téléphone le décor n'apporte plus rien : la section occupe
+   tout l'écran, on ne voit qu'un fragment de trame, et la toile coûte
+   des images par seconde. */
+@media (max-width: 760px) {
+  .decor { display: none; }
+}
+
+/* La section porte le décor : son contenu doit passer devant. Le
+   canevas est exclu, sinon il remonterait au même plan que le texte
+   et le recouvrirait. */
+.a-decor {
+  position: relative;
+  overflow: hidden;
+}
+
+.a-decor > *:not(.decor) {
+  position: relative;
+  z-index: 1;
+}

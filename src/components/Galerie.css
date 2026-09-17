@@ -4,6 +4,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--esp-md);
+  /* Les vignettes tournent dans l'espace en arrivant : la perspective
+     vit ici et non sur elles, sinon elle s'appliquerait après la
+     rotation et la profondeur disparaîtrait. */
+  perspective: 1300px;
+  perspective-origin: 50% 35%;
 }
 
 .galerie__vignette {
@@ -15,11 +20,13 @@
   background: var(--fond-creux);
   cursor: zoom-in;
   aspect-ratio: 16 / 10;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+  /* Le mouvement est écrit en style par l'animation : une transition
+     sur « transform » ici la retiendrait, et le survol posé en
+     feuille de style serait de toute façon écrasé. */
+  transition: box-shadow .2s ease, border-color .2s ease;
 }
 
 .galerie__vignette:hover {
-  transform: translateY(-3px);
   box-shadow: var(--ombre-md);
   border-color: var(--trait-fort);
 }
@@ -167,7 +174,16 @@
 .visionneuse__fleche--droite { right: var(--esp-md); }
 
 @media (max-width: 700px) {
-  .galerie { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .galerie {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    /* Deux vignettes par ligne sur un petit écran : inclinées, elles
+       se chevaucheraient et deviendraient illisibles. */
+    perspective: none;
+  }
   .visionneuse__fleche { width: 38px; height: 38px; font-size: 24px; }
   .visionneuse__cadre figcaption { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galerie { perspective: none; }
 }

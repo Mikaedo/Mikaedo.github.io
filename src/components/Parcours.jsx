@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { parcours } from '../data/profil';
 import Bitmoji from './Bitmoji';
+import Decor from './Decor';
 import './Parcours.css';
 
 /**
@@ -73,10 +74,14 @@ export default function Parcours() {
 
   return (
     <section
-      className="section section--creux parcours-section"
+      className="section section--creux parcours-section a-decor"
       id="parcours"
       ref={section}
     >
+      {/* La pièce où se tient le personnage : le sol fuit derrière
+          lui et une retombée de lumière tombe sur sa place. */}
+      <Decor genre="piece" />
+
       <div className="contenu">
         <p className="surtitre">Parcours</p>
         <h2 className="titre-section">Laissez-moi vous raconter</h2>

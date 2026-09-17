@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { profil } from '../data/profil';
 import Frappe from './Frappe';
 import Globe3D from './Globe3D';
@@ -29,15 +30,46 @@ function Fleche() {
 }
 
 export default function Ouverture() {
+  const cadre = useRef(null);
+
+  /* Le portrait de fond se recule à mesure qu'on quitte l'ouverture :
+     l'œil lit ce recul comme une caméra qui avance dans la page. */
+  const { scrollYProgress } = useScroll({
+    target: cadre,
+    offset: ['start start', 'end start']
+  });
+
+  const zoom = useTransform(scrollYProgress, [0, 1], [1.06, 1.3]);
+  const derive = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
+  /* Il s'efface en partant : sans cela il traverserait le seuil et
+     mordrait sur la section suivante. */
+  const fondu = useTransform(scrollYProgress, [0, 0.7, 1], [1, 0.75, 0]);
+
   const monte = {
     initial: { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 }
   };
 
   return (
-    <section className="ouverture" id="haut">
+    <section className="ouverture" id="haut" ref={cadre}>
       {/* Le globe se pose derrière l'ouverture, centré sur Abidjan. */}
       <Globe3D />
+
+      {/* Le portrait occupe le fond, au centre, et se recule à mesure
+          qu'on descend : on entre dans la page par lui. Le texte
+          passe devant, sur un voile qui garantit sa lisibilité. */}
+      <motion.div
+        className="ouverture__fond"
+        style={{ scale: zoom, y: derive, opacity: fondu }}
+        aria-hidden="true"
+      >
+        <img
+          src={profil.portrait}
+          alt=""
+          width="880"
+          height="1112"
+        />
+      </motion.div>
 
       <div className="contenu ouverture__grille">
 
@@ -114,22 +146,6 @@ export default function Ouverture() {
             </a>
           </motion.div>
         </div>
-
-        <motion.div
-          className="ouverture__portrait"
-          initial={{ opacity: 0.001, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-        >
-          <div className="portrait">
-            <img
-              src={profil.portrait}
-              alt={`${profil.prenom} ${profil.nom}`}
-              width="900"
-              height="1200"
-            />
-          </div>
-        </motion.div>
 
       </div>
     </section>

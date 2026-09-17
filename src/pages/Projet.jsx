@@ -3,15 +3,11 @@ import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { trouverProjet, projets } from '../data/projets';
 import Galerie from '../components/Galerie';
+import Focale from '../components/Focale';
 import './Projet.css';
 
 /**
- * La page d'un projet : le problème posé, la réponse, les captures,
- * et ce que le projet ne résout pas.
- *
- * Dire les limites n'affaiblit pas la démonstration : un recruteur
- * qui lit « le système n'a pas été confronté à des agents qui ne l'ont
- * pas conçu » sait à qui il a affaire.
+ * La page d'un projet : le problème posé, la réponse, les captures.
  */
 export default function Projet() {
   const { id } = useParams();
@@ -86,7 +82,10 @@ export default function Projet() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.1 }}
           >
-            <img src={projet.accroche} alt={`${projet.nom} en fonctionnement`} />
+            <Focale
+              src={projet.accroche}
+              alt={`${projet.nom} en fonctionnement`}
+            />
           </motion.figure>
         </div>
       )}
@@ -130,15 +129,6 @@ export default function Projet() {
               Cliquez sur une capture pour l'agrandir.
             </p>
             <Galerie ecrans={projet.ecrans} note={projet.note} />
-          </div>
-        </section>
-      )}
-
-      {projet.limites && (
-        <section className="section">
-          <div className="contenu projet__texte">
-            <h2 className="projet__titre2">Ce que cela ne résout pas</h2>
-            <p className="projet__paragraphe">{projet.limites}</p>
           </div>
         </section>
       )}

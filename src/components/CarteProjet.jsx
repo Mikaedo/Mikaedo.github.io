@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Focale from './Focale';
 import './CarteProjet.css';
 
 /**
@@ -24,12 +25,9 @@ export default function CarteProjet({ projet, rang }) {
 
         <div className="carte__visuel">
           {projet.couverture ? (
-            <img
-              src={projet.couverture}
-              alt=""
-              loading="lazy"
-              className="carte__image"
-            />
+            /* La capture se recule à mesure qu'on descend : on entre
+               dans l'écran du projet au lieu de le survoler. */
+            <Focale src={projet.couverture} alt="" loading="lazy" />
           ) : (
             /* Sans capture, on montre l'initiale du projet en grand :
                reprendre les technologies ferait double emploi avec les

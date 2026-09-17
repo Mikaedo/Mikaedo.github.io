@@ -6,6 +6,7 @@ import Parcours from '../components/Parcours';
 import Contact from '../components/Contact';
 import Seuil from '../components/Seuil';
 import Plan from '../components/Plan';
+import Decor from '../components/Decor';
 import { projets } from '../data/projets';
 import './Accueil.css';
 
@@ -24,7 +25,12 @@ export default function Accueil() {
       <Seuil vers="creux" />
 
       <Plan>
-        <section className="section section--creux" id="projets">
+        <section className="section section--creux a-decor" id="projets">
+          {/* La salle machine : le sol fuit et des baies s'alignent
+              de part et d'autre. Ce sont des systèmes, pas des
+              maquettes. */}
+          <Decor genre="machine" />
+
           <div className="contenu">
             <motion.div
               initial={{ opacity: 0.001, y: 22 }}

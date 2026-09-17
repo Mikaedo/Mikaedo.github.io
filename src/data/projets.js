@@ -110,12 +110,6 @@ export const projets = [
       }
     ],
 
-    limites:
-      "Le système a été éprouvé techniquement, non confronté à des agents " +
-      "qui ne l'ont pas conçu. Un modèle qui réussit sur un jeu de test " +
-      "échoue parfois sur un chantier, où la lumière et la poussière " +
-      "dégradent des performances qui semblaient acquises.",
-
     ecrans: [
       { image: webTableau,      legende: "Tableau de bord : carte des signalements sur les tracés du PTUA, indicateurs de suivi, répartition par nuisance." },
       { image: webSignalements, legende: "Liste des signalements, filtrable par statut, criticité et chantier." },
@@ -193,11 +187,6 @@ export const projets = [
       }
     ],
 
-    limites:
-      "Le code reste privé. La plateforme a été construite jusqu'au bout " +
-      "de son périmètre fonctionnel, mais n'a pas encore été exploitée " +
-      "sur une saison complète de cotisations.",
-
     ecrans: [
       { image: weciteTableau,   legende: "Vue d'ensemble : trésorerie, taux de recouvrement, incidents à suivre et courbe des encaissements." },
       { image: weciteResidents, legende: "Annuaire des résidents, avec leur villa et leur rôle." },
@@ -250,11 +239,6 @@ export const projets = [
           "moins cher qu'un historique illisible."
       }
     ],
-
-    limites:
-      "Projet académique, mené en équipe sur un semestre. Le périmètre " +
-      "s'arrête au prêt et au retour : ni réservation à distance ni " +
-      "statistiques de consultation.",
 
     ecrans: [
       { image: biblioTableau,   legende: "Tableau de bord : répartition du fonds par catalogue, usagers par rôle, alertes de retard." },

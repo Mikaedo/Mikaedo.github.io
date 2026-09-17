@@ -78,7 +78,10 @@
   box-shadow: var(--ombre-lg);
 }
 
-.projet__accroche img { width: 100%; }
+/* L'accroche se traverse au défilement : le cadre garde une hauteur
+   fixe pendant que l'image glisse à l'intérieur. Sans rapport imposé
+   il se dimensionnerait sur l'image, qui bouge, et sauterait. */
+.projet__accroche .focale { aspect-ratio: 16 / 9; }
 
 /* --- Le corps de la page ---------------------------------------- */
 .projet__titre2 {
