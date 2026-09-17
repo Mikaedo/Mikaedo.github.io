@@ -46,62 +46,97 @@ export const profil = {
     "temps d'apprendre un outil compliqué."
 };
 
+/**
+ * Ce que je sais faire, groupé par ce à quoi cela sert.
+ *
+ * Une phrase dit le domaine, puis viennent les outils, logo compris.
+ * « marque » porte le nom du pictogramme dans le catalogue Simple
+ * Icons, quand la marque y figure ; sans lui l'étiquette reste du
+ * texte, ce qui convient aux méthodes et aux formats, qui n'ont pas
+ * de logo.
+ *
+ * La liste est volontairement courte : citer chaque bibliothèque
+ * traversée donnerait un inventaire, où l'essentiel se noie.
+ */
 export const competences = [
   {
     domaine: 'Applications mobiles',
     icone: 'mobile',
-    lignes: [
-      { quoi: 'Flutter', precision: 'BLoC, Riverpod' },
-      { quoi: 'Fonctionnement hors connexion', precision: 'SQLite, file de synchronisation' },
-      { quoi: 'Géolocalisation et cartographie', precision: 'flutter_map, Leaflet' },
-      { quoi: 'Inférence embarquée', precision: 'ONNX Runtime' }
+    resume:
+      "Des applications qui fonctionnent sans réseau, enregistrent en " +
+      "local et se synchronisent au retour de la connexion.",
+    outils: [
+      { nom: 'Flutter', marque: 'siFlutter' },
+      { nom: 'SQLite', marque: 'siSqlite' },
+      { nom: 'Leaflet', marque: 'siLeaflet' },
+      { nom: 'ONNX', marque: 'siOnnx' }
     ]
   },
   {
     domaine: 'Serveurs et API',
     icone: 'serveur',
-    lignes: [
-      { quoi: 'FastAPI', precision: 'Python, Pydantic, SQLAlchemy' },
-      { quoi: 'Spring Boot', precision: 'Java 21, Maven' },
-      { quoi: 'Authentification JWT', precision: 'habilitations par rôle' },
-      { quoi: 'Temps réel', precision: 'WebSocket STOMP' }
+    resume:
+      "Des interfaces de programmation documentées, avec des " +
+      "habilitations par rôle et du temps réel quand il le faut.",
+    outils: [
+      { nom: 'FastAPI', marque: 'siFastapi' },
+      { nom: 'Python', marque: 'siPython' },
+      { nom: 'Spring Boot', marque: 'siSpring' },
+      { nom: 'Java', marque: 'siOpenjdk' },
+      { nom: 'JWT', marque: 'siJsonwebtokens' }
     ]
   },
   {
     domaine: 'Données',
     icone: 'base',
-    lignes: [
-      { quoi: 'PostgreSQL, PostGIS', precision: 'données spatiales' },
-      { quoi: 'Modélisation MERISE', precision: 'MCD, MLD, 3NF' },
-      { quoi: 'Modélisation UML', precision: 'statique et dynamique' }
+    resume:
+      "Du modèle conceptuel à la base en production, y compris les " +
+      "données spatiales.",
+    outils: [
+      { nom: 'PostgreSQL', marque: 'siPostgresql' },
+      { nom: 'PostGIS' },
+      { nom: 'MERISE' },
+      { nom: 'UML' }
     ]
   },
   {
     domaine: 'Intelligence artificielle',
     icone: 'ia',
-    lignes: [
-      { quoi: "Détection d'objets", precision: 'YOLOv8n' },
-      { quoi: "Classification d'images", precision: 'MobileNetV2' },
-      { quoi: 'Apprentissage par transfert', precision: 'export ONNX' },
-      { quoi: 'Télédétection', precision: 'Earth Engine, Sentinel' }
+    resume:
+      "Des modèles de vision entraînés puis embarqués sur le " +
+      "téléphone, pour qu'ils tournent sans serveur.",
+    outils: [
+      { nom: 'YOLOv8' },
+      { nom: 'MobileNetV2' },
+      { nom: 'Python', marque: 'siPython' },
+      { nom: 'ONNX', marque: 'siOnnx' }
     ]
   },
   {
     domaine: 'Interfaces web',
     icone: 'web',
-    lignes: [
-      { quoi: 'Angular 21', precision: 'TypeScript' },
-      { quoi: 'React 19', precision: 'Vite, Tailwind' },
-      { quoi: 'Visualisation', precision: 'ApexCharts, Recharts' }
+    resume:
+      "Des tableaux de bord qui montrent l'état du terrain d'un coup " +
+      "d'œil, et restent lisibles sur un écran de bureau comme sur un " +
+      "téléphone.",
+    outils: [
+      { nom: 'Angular', marque: 'siAngular' },
+      { nom: 'React', marque: 'siReact' },
+      { nom: 'TypeScript', marque: 'siTypescript' },
+      { nom: 'Vite', marque: 'siVite' }
     ]
   },
   {
     domaine: 'Mise en production',
     icone: 'deploiement',
-    lignes: [
-      { quoi: 'Docker', precision: 'Docker Compose' },
-      { quoi: 'Intégration continue', precision: 'GitHub Actions' },
-      { quoi: 'Hébergement', precision: 'Render, Supabase, Cloudflare' }
+    resume:
+      "Tout conteneurisé, pour déplacer un serveur d'un hébergeur à " +
+      "l'autre sans toucher au code.",
+    outils: [
+      { nom: 'Docker', marque: 'siDocker' },
+      { nom: 'GitHub Actions', marque: 'siGithubactions' },
+      { nom: 'Supabase', marque: 'siSupabase' },
+      { nom: 'Cloudflare', marque: 'siCloudflare' }
     ]
   }
 ];

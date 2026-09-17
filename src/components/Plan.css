@@ -1,0 +1,41 @@
+/* Le plan qui bascule dans l'espace au défilement.
+
+   La perspective est portée par le parent : posée sur l'élément qui
+   tourne, elle s'appliquerait après la rotation et l'effet de
+   profondeur disparaîtrait. */
+
+.plan {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+  /* Un bloc incliné est projeté plus large que sa boîte : sans cette
+     coupe il déborde latéralement et la page gagne une barre de
+     défilement horizontale. */
+  overflow-x: clip;
+}
+
+.plan__face {
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  /* La face reste opaque pendant la bascule : sans cela, Chrome
+     recompose le texte à chaque image et le rendu tremble. */
+  backface-visibility: hidden;
+}
+
+/* Le mouvement en vaut la peine sur un grand écran, où le bloc entier
+   est visible. Sur un téléphone la section occupe toute la vue, la
+   bascule ne se lit plus et coûte des images par seconde. */
+@media (max-width: 760px) {
+  .plan { perspective: none; }
+  .plan__face {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan { perspective: none; }
+  .plan__face {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

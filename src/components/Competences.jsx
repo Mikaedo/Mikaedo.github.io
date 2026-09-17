@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { competences } from '../data/profil';
 import Marque from './Marque';
+import Outil from './Outil';
 import Technos3D from './Technos3D';
 import './Competences.css';
 
@@ -9,9 +10,9 @@ import './Competences.css';
  * mode : un recruteur cherche « sait-il faire du mobile hors ligne »,
  * pas « connaît-il la bibliothèque X ».
  *
- * Chaque domaine tient en une ligne de sujets et une rangée d'outils.
- * La version précédente détaillait chaque outil sur deux lignes, et
- * les six domaines formaient un mur de texte que personne ne lit.
+ * Chaque domaine tient en une phrase et quelques outils, logo
+ * compris. Détailler chaque bibliothèque donnait un inventaire de
+ * vingt-quatre lignes, où l'essentiel se noyait.
  */
 export default function Competences() {
   return (
@@ -44,20 +45,11 @@ export default function Competences() {
                 {groupe.domaine}
               </h3>
 
-              <p className="competence__sujets">
-                {groupe.lignes.map((l) => l.quoi).join(' · ')}
-              </p>
+              <p className="competence__resume">{groupe.resume}</p>
 
-              {/* Dédoublonné : deux lignes d'un même domaine peuvent
-                  citer le même outil, et React refuse deux clés
-                  identiques entre frères. */}
               <ul className="competence__outils">
-                {[...new Set(
-                  groupe.lignes
-                    .filter((l) => l.precision)
-                    .flatMap((l) => l.precision.split(', '))
-                )].map((outil) => (
-                  <li key={outil} className="etiquette">{outil}</li>
+                {groupe.outils.map((o) => (
+                  <Outil key={o.nom} nom={o.nom} marque={o.marque} />
                 ))}
               </ul>
             </motion.div>

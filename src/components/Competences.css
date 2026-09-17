@@ -29,11 +29,11 @@
 
 .competence__titre .marque { flex: 0 0 auto; }
 
-.competence__sujets {
-  font-size: 15.5px;
-  line-height: 1.6;
-  color: var(--encre);
-  margin-bottom: 14px;
+.competence__resume {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--encre-douce);
+  margin-bottom: 16px;
 }
 
 .competence__outils {
@@ -50,5 +50,5 @@
     grid-template-columns: 1fr;
     gap: var(--esp-lg);
   }
-  .competence__sujets { font-size: 15px; }
+  .competence__resume { font-size: 14.5px; }
 }

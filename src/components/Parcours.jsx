@@ -17,6 +17,21 @@ import './Parcours.css';
  * il peut revenir en arrière, ce qu'un parcours lié au défilement
  * interdit.
  */
+/* Le chevron des commandes, dessiné ici : un seul pictogramme ne
+   justifie pas de charger une bibliothèque d'icônes. */
+function Chevron({ sens }) {
+  return (
+    <svg
+      width="17" height="17" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2.2"
+      strokeLinecap="round" strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {sens === 'haut' ? <path d="m18 15-6-6-6 6" /> : <path d="m6 9 6 6 6-6" />}
+    </svg>
+  );
+}
+
 export default function Parcours() {
   const section = useRef(null);
   const [etape, setEtape] = useState(0);
@@ -90,6 +105,38 @@ export default function Parcours() {
                   <p className="recit__texte">{e.texte}</p>
                 </motion.div>
               </AnimatePresence>
+
+              {/* Les commandes vivent contre la bulle, là où se pose
+                  le regard. Reléguées sous la chronologie, elles
+                  obligeaient à descendre les chercher à chaque
+                  étape. */}
+              <div className="recit__nav">
+                <button
+                  type="button"
+                  className="rond"
+                  onClick={() => aller(etape - 1)}
+                  disabled={etape === 0}
+                  aria-label="Étape précédente"
+                >
+                  <Chevron sens="haut" />
+                </button>
+
+                <p className="recit__compte">
+                  <span>{etape + 1}</span>
+                  <i>/</i>
+                  {parcours.length}
+                </p>
+
+                <button
+                  type="button"
+                  className="rond rond--plein"
+                  onClick={() => aller(etape + 1)}
+                  disabled={etape === parcours.length - 1}
+                  aria-label="Étape suivante"
+                >
+                  <Chevron sens="bas" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -123,28 +170,6 @@ export default function Parcours() {
                 <span className="invisible">{p.titre}</span>
               </button>
             ))}
-          </div>
-
-          <div className="recit__commandes">
-            <button
-              type="button"
-              className="bouton"
-              onClick={() => aller(etape - 1)}
-              disabled={etape === 0}
-            >
-              Précédent
-            </button>
-            <p className="recit__compte">
-              <span>{etape + 1}</span> sur {parcours.length}
-            </p>
-            <button
-              type="button"
-              className="bouton bouton--plein"
-              onClick={() => aller(etape + 1)}
-              disabled={etape === parcours.length - 1}
-            >
-              Suivant
-            </button>
           </div>
 
         </div>

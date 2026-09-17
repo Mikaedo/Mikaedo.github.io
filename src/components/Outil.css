@@ -1,0 +1,54 @@
+/* Une technologie, avec son logo officiel. */
+
+.outil {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-sm);
+  background: var(--fond-carte);
+  font-family: var(--police-mono);
+  font-size: 12.5px;
+  color: var(--encre-douce);
+  line-height: 1.2;
+  transition: border-color .18s ease, color .18s ease,
+              background .18s ease, transform .18s ease;
+}
+
+.outil__logo {
+  flex: 0 0 auto;
+  color: var(--teinte, currentColor);
+}
+
+.outil--marque:hover {
+  border-color: var(--teinte);
+  color: var(--encre);
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--teinte) 7%, var(--fond-carte));
+}
+
+.outil:not(.outil--marque):hover {
+  border-color: var(--trait-fort);
+  color: var(--encre);
+  transform: translateY(-2px);
+}
+
+/* Quelques marques sont noires par définition, Angular par exemple :
+   sur fond sombre leur logo disparaîtrait. Un éclaircissement ne
+   sert à rien sur un noir presque pur, puisqu'il multiplie. On mêle
+   donc la teinte de marque à du blanc, ce qui relève les teintes
+   sombres sans délaver celles qui sont déjà vives. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .outil__logo {
+    color: color-mix(in srgb, var(--teinte, currentColor) 72%, white);
+  }
+}
+
+:root[data-theme="dark"] .outil__logo {
+  color: color-mix(in srgb, var(--teinte, currentColor) 72%, white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outil { transition: none; }
+}

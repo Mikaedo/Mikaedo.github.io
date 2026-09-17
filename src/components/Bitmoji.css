@@ -7,7 +7,7 @@
 .bitmoji {
   position: relative;
   width: 100%;
-  max-width: 230px;
+  max-width: 172px;
   margin-inline: auto;
   /* La tête déborde du buste de 25 % de sa hauteur vers le haut. Un
      retrait en pourcentage se calcule sur la largeur, pas la hauteur :
