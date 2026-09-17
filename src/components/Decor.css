@@ -16,32 +16,35 @@
 /* Le décor s'efface vers les bords : sans ce fondu, la toile finit
    sur une arête nette et se lit comme une image collée. */
 .decor--machine {
-  opacity: 0.55;
+  opacity: 0.9;
   mask-image: radial-gradient(
-    120% 90% at 50% 30%, #000 38%, transparent 82%
+    125% 95% at 50% 30%, #000 46%, transparent 88%
   );
 }
 
 .decor--trame {
-  opacity: 0.6;
+  opacity: 0.95;
   mask-image: linear-gradient(
-    to bottom, transparent, #000 18%, #000 78%, transparent
+    to bottom, transparent, #000 14%, #000 82%, transparent
   );
 }
 
-.decor--piece {
+/* La bibliothèque porte la scène du parcours : elle reste pleine, et
+   c'est son masque qui la retire de là où le texte se pose. */
+.decor--biblio {
   opacity: 1;
   mask-image: radial-gradient(
-    130% 100% at 22% 45%, #000 48%, transparent 92%
+    135% 105% at 20% 48%, #000 52%, transparent 94%
   );
 }
 
-/* Sur fond sombre le décor se détache davantage : on le retient. */
+/* Sur fond sombre un trait clair ressort davantage : on retient le
+   décor pour que le texte reste premier. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .decor { opacity: 0.4; }
+  :root:not([data-theme="light"]) .decor { opacity: 0.62; }
 }
 
-:root[data-theme="dark"] .decor { opacity: 0.4; }
+:root[data-theme="dark"] .decor { opacity: 0.62; }
 
 /* Sur un téléphone le décor n'apporte plus rien : la section occupe
    tout l'écran, on ne voit qu'un fragment de trame, et la toile coûte

@@ -68,11 +68,20 @@ while file:
 print(f"fond detecte : {fond.mean() * 100:.1f} %")
 
 masque = Image.fromarray(((~fond) * 255).astype(np.uint8), "L")
-masque = masque.filter(ImageFilter.GaussianBlur(1.1))
+masque = masque.filter(ImageFilter.GaussianBlur(1.6))
 m = np.array(masque, dtype=np.float32) / 255.0
-# Un contour franc : sans ce resserrement, un lisere blanc du fond
-# reste accroche au sujet.
-m = np.clip((m - 0.44) / 0.34, 0, 1)
+
+# Le seuil est pousse au-dela du milieu : il mord d'un pixel ou deux
+# sur le sujet. C'est voulu. Le detourage laissait sinon un lisere a
+# 220/214/212, du blanc du studio, alors que le sujet est a 113/76/64 :
+# ce liseré cerne la tete d'un trait clair et la fait paraitre collee.
+# Mieux vaut perdre un pixel de contour que garder le fond.
+m = np.clip((m - 0.62) / 0.30, 0, 1)
+
+# Une transition douce sur le pourtour : un bord binaire dentelle les
+# obliques et souligne la decoupe. Les valeurs intermediaires font le
+# raccord avec ce qu'il y a derriere.
+m = m ** 1.18
 
 entier = Image.fromarray(
     np.dstack([np.array(image, dtype=np.uint8),
@@ -90,32 +99,38 @@ os.makedirs(DOSSIER, exist_ok=True)
 # Les fractions sont relevees sur l'image : la tete tient dans le
 # cinquieme superieur, les bras descendent le long du buste jusqu'aux
 # poches. Les tranches se recouvrent d'environ deux points.
+# Les bras ne sont pas decoupes : les mains sont dans les poches sur
+# cette photo, ils n'ont donc rien a bouger de leur cote.
 PARTIES = {
     # (gauche, haut, droite, bas), en fractions de l'image
-    "tete":        (0.30, 0.000, 0.70, 0.245),
-    "corps":       (0.16, 0.200, 0.86, 1.000),
-    "bras-gauche": (0.14, 0.215, 0.38, 0.600),
-    "bras-droit":  (0.62, 0.215, 0.86, 0.600),
+    "tete":  (0.30, 0.000, 0.70, 0.245),
+    "corps": (0.16, 0.200, 0.86, 1.000),
 }
 
 for nom, (g, ht, d, bs) in PARTIES.items():
     partie = entier.crop((int(g * L), int(ht * H), int(d * L), int(bs * H)))
-    chemin = os.path.join(DOSSIER, f"bitmoji-{nom}.png")
-    partie.save(chemin, optimize=True)
-    print(f"   {nom:<14} {partie.size}  "
+    chemin = os.path.join(DOSSIER, f"bitmoji-{nom}.webp")
+    partie.save(chemin, "WEBP", quality=92, method=6)
+    print(f"   {nom:<8} {partie.size}  "
           f"{round(os.path.getsize(chemin) / 1024)} Ko")
 
 # L'image entiere sert de repli si l'animation ne se lance pas.
 entier_reduit = entier.copy()
 entier_reduit.thumbnail((640, 860), Image.LANCZOS)
-complet = os.path.join(DOSSIER, "bitmoji-complet.png")
-entier_reduit.save(complet, optimize=True)
-print(f"   complet        {entier_reduit.size}  "
+complet = os.path.join(DOSSIER, "bitmoji-complet.webp")
+entier_reduit.save(complet, "WEBP", quality=90, method=6)
+print(f"   complet  {entier_reduit.size}  "
       f"{round(os.path.getsize(complet) / 1024)} Ko")
 
-# Une vignette de controle, sur le crème de la page.
-controle = Image.new("RGB", entier.size, (252, 250, 247))
-controle.paste(entier, (0, 0), entier)
-controle.thumbnail((360, 640), Image.LANCZOS)
-controle.save(os.path.join(ICI, "controle_detourage.jpg"), quality=90)
-print("controle : controle_detourage.jpg")
+# Deux vignettes de controle. Le liseré du detourage ne se voit pas
+# sur un fond clair : c'est sur le brun sombre qu'il apparait, et
+# c'est la qu'il faut le juger. On cadre sur la tete, ou la coupure
+# se remarque le plus.
+tete_seule = entier.crop((int(0.30 * L), 0, int(0.70 * L), int(0.245 * H)))
+for nom, teinte in (("clair", (252, 250, 247)),
+                    ("sombre", (23, 17, 12))):
+    vue = Image.new("RGB", tete_seule.size, teinte)
+    vue.paste(tete_seule, (0, 0), tete_seule)
+    vue = vue.resize((vue.width * 2, vue.height * 2), Image.LANCZOS)
+    vue.save(os.path.join(ICI, f"controle_tete_{nom}.jpg"), quality=94)
+print("controle : controle_tete_clair.jpg, controle_tete_sombre.jpg")

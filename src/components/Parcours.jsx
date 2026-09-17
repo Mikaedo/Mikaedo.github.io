@@ -78,9 +78,10 @@ export default function Parcours() {
       id="parcours"
       ref={section}
     >
-      {/* La pièce où se tient le personnage : le sol fuit derrière
-          lui et une retombée de lumière tombe sur sa place. */}
-      <Decor genre="piece" />
+      {/* La bibliothèque où se tient le personnage : les rayonnages
+          fuient derrière lui, et une retombée de lumière tombe sur sa
+          place. */}
+      <Decor genre="biblio" />
 
       <div className="contenu">
         <p className="surtitre">Parcours</p>

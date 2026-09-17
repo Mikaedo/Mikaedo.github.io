@@ -5,7 +5,7 @@ import './Decor.css';
  * Le décor d'une section, dessiné derrière son contenu.
  *
  * Chaque section a son lieu : une salle machine pour les projets, une
- * trame de constellation pour le savoir-faire, une pièce en
+ * trame de constellation pour le savoir-faire, une bibliothèque en
  * perspective pour le parcours. Le décor situe ce qu'on lit au lieu
  * de le poser sur un fond uni.
  *
@@ -17,7 +17,7 @@ import './Decor.css';
  * Le décor ne porte aucune information : il est masqué aux lecteurs
  * d'écran, et la section reste entière sans lui.
  *
- * @param {'machine'|'trame'|'piece'} genre  le décor à peindre
+ * @param {'machine'|'trame'|'biblio'} genre  le décor à peindre
  */
 export default function Decor({ genre = 'trame' }) {
   const toile = useRef(null);
@@ -64,7 +64,7 @@ export default function Decor({ genre = 'trame' }) {
       const fuiteX = l * 0.5;
       const fuiteY = h * 0.18;
       d.strokeStyle = trait;
-      d.globalAlpha = 0.16;
+      d.globalAlpha = 0.3;
 
       for (let i = -8; i <= 8; i += 1) {
         d.beginPath();
@@ -84,7 +84,7 @@ export default function Decor({ genre = 'trame' }) {
       }
 
       /* Quelques baies, posées sur la grille. */
-      d.globalAlpha = 0.22;
+      d.globalAlpha = 0.4;
       const baies = 7;
       for (let i = 0; i < baies; i += 1) {
         const t = 0.22 + (i / baies) * 0.72;
@@ -99,10 +99,10 @@ export default function Decor({ genre = 'trame' }) {
         /* Les diodes : trois par baie, la dernière à l'accent. */
         for (let j = 0; j < 3; j += 1) {
           d.fillStyle = j === 2 ? accent : trait;
-          d.globalAlpha = j === 2 ? 0.5 : 0.24;
+          d.globalAlpha = j === 2 ? 0.75 : 0.42;
           d.fillRect(x - large / 2 + 5, y - haut + 7 + j * 9, large - 10, 2);
         }
-        d.globalAlpha = 0.22;
+        d.globalAlpha = 0.4;
       }
       d.globalAlpha = 1;
     }
@@ -150,7 +150,7 @@ export default function Decor({ genre = 'trame' }) {
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
           if (dist > portee) continue;
-          d.globalAlpha = (1 - dist / portee) * 0.2;
+          d.globalAlpha = (1 - dist / portee) * 0.38;
           d.strokeStyle = trait;
           d.beginPath();
           d.moveTo(a.x, a.y);
@@ -161,7 +161,7 @@ export default function Decor({ genre = 'trame' }) {
 
       for (let i = 0; i < sommets.length; i += 1) {
         const s = sommets[i];
-        d.globalAlpha = i % 6 === 0 ? 0.55 : 0.3;
+        d.globalAlpha = i % 6 === 0 ? 0.8 : 0.5;
         d.fillStyle = i % 6 === 0 ? accent : trait;
         d.beginPath();
         d.arc(s.x, s.y, i % 6 === 0 ? 2.4 : 1.5, 0, Math.PI * 2);
@@ -170,57 +170,145 @@ export default function Decor({ genre = 'trame' }) {
       d.globalAlpha = 1;
     }
 
-    /* --- La pièce : un lieu où se tenir --------------------------- */
-    function piece() {
+    /* --- La bibliothèque : le lieu du récit ----------------------- */
+    /* Les rayonnages sont peints en volume : chaque tranche a une
+       face avant et une joue de côté, dont la largeur dépend de la
+       distance au point de fuite. C'est cette joue qui donne
+       l'épaisseur ; sans elle on ne verrait que des barres. */
+    function biblio() {
       const trait = lire('--trait-fort', '#C9B8A6');
+      const encre = lire('--encre-tenue', '#8A7563');
       const accent = lire('--accent', '#A6703F');
       d.clearRect(0, 0, l, h);
-      d.lineWidth = 1;
 
-      /* Le point de fuite est décalé vers la gauche, là où se tient
-         le personnage : les lignes du sol convergent derrière lui. */
-      const fx = l * 0.19;
-      const fy = h * 0.42;
-      const sol = h * 0.78;
+      /* Le point de fuite est à gauche, là où se tient le personnage :
+         les rayonnages convergent derrière lui. Il est placé à
+         mi-hauteur des meubles, pour que les joues des plus hauts
+         descendent et celles des plus bas remontent, comme dans une
+         vraie salle vue à hauteur d'homme. */
+      const fx = l * 0.2;
+      const fy = h * 0.4;
 
+      /* Une graine fixe : le rangement des livres doit être le même
+         d'un rendu à l'autre, sinon il change à chaque
+         redimensionnement. */
+      let graine = 7;
+      const hasard = () => {
+        graine = (graine * 1103515245 + 12345) % 2147483648;
+        return graine / 2147483648;
+      };
+
+      /* Un meuble, dessiné en perspective à un point de fuite. */
+      const meuble = (x0, large, haut, bas, profond, teinte) => {
+        /* Les arêtes fuient vers le point de fuite : plus un point
+           est loin de lui, plus sa joue est large. */
+        const vers = (x, y, t) => [x + (fx - x) * t, y + (fy - y) * t];
+
+        const x1 = x0 + large;
+        /* Seule l'arête droite fuit : c'est la joue qu'on voit, les
+           meubles étant tous à droite du point de fuite. */
+        const [bx, by] = vers(x1, haut, profond);
+        const [cx, cy] = vers(x1, bas, profond);
+
+        /* La joue, plus sombre : c'est elle qui creuse le meuble. */
+        d.globalAlpha = 0.14;
+        d.fillStyle = teinte;
+        d.beginPath();
+        d.moveTo(x1, haut);
+        d.lineTo(bx, by);
+        d.lineTo(cx, cy);
+        d.lineTo(x1, bas);
+        d.closePath();
+        d.fill();
+
+        /* La face avant, en creux. */
+        d.globalAlpha = 0.07;
+        d.fillRect(x0, haut, large, bas - haut);
+
+        /* Les montants. */
+        d.globalAlpha = 0.34;
+        d.strokeStyle = teinte;
+        d.lineWidth = 1.2;
+        d.strokeRect(x0, haut, large, bas - haut);
+        d.beginPath();
+        d.moveTo(x1, haut); d.lineTo(bx, by);
+        d.moveTo(x1, bas); d.lineTo(cx, cy);
+        d.moveTo(bx, by); d.lineTo(cx, cy);
+        d.stroke();
+
+        /* Les étagères, et les livres posés dessus. La boucle va
+           jusqu'au dernier compartiment inclus : s'arrêter avant
+           laissait le bas du meuble vide, ce qui se voyait comme un
+           trou. */
+        const etages = 5;
+        for (let e = 1; e <= etages; e += 1) {
+          const y = haut + ((bas - haut) * e) / etages;
+          const [ex, ey] = vers(x1, y, profond);
+
+          /* La tablette du bas est déjà tracée par le cadre. */
+          if (e < etages) {
+            d.globalAlpha = 0.3;
+            d.beginPath();
+            d.moveTo(x0, y);
+            d.lineTo(x1, y);
+            d.lineTo(ex, ey);
+            d.stroke();
+          }
+
+          /* Une rangée de livres : des tranches de largeurs et de
+             hauteurs inégales, sinon la rangée fait grille. */
+          let px = x0 + 3;
+          const plafond = haut + ((bas - haut) * (e - 1)) / etages;
+          while (px < x1 - 5) {
+            const ep = 3 + hasard() * 7;
+            if (px + ep > x1 - 3) break;
+            const creux = (y - plafond) * (0.45 + hasard() * 0.42);
+            const marque = hasard() > 0.86;
+
+            d.globalAlpha = marque ? 0.4 : 0.12 + hasard() * 0.16;
+            d.fillStyle = marque ? accent : teinte;
+            d.fillRect(px, y - creux, ep, creux);
+
+            px += ep + 0.8;
+          }
+        }
+        d.globalAlpha = 1;
+      };
+
+      /* Trois meubles, du plus proche au plus lointain : les plus
+         éloignés sont plus petits, plus hauts sur l'image et plus
+         pâles. Ils s'arrêtent au-dessus de la chronologie, qui
+         occupe le bas de la section. */
+      d.globalAlpha = 1;
+      meuble(l * 0.34, l * 0.2, h * 0.06, h * 0.68, 0.3, encre);
+      meuble(l * 0.57, l * 0.17, h * 0.12, h * 0.63, 0.26, trait);
+      meuble(l * 0.76, l * 0.15, h * 0.17, h * 0.58, 0.22, trait);
+
+      /* Le sol, qui rattache les meubles au personnage. */
+      d.globalAlpha = 0.16;
       d.strokeStyle = trait;
-
-      /* La ligne d'horizon, et le sol qui s'en éloigne. */
-      d.globalAlpha = 0.2;
-      d.beginPath();
-      d.moveTo(0, sol);
-      d.lineTo(l, sol);
-      d.stroke();
-
-      d.globalAlpha = 0.13;
-      for (let i = -10; i <= 22; i += 1) {
+      d.lineWidth = 1;
+      for (let i = 0; i <= 14; i += 1) {
         d.beginPath();
         d.moveTo(fx, fy);
-        d.lineTo(fx + i * l * 0.1, h);
+        d.lineTo(l * (i / 14) * 1.6 - l * 0.3, h);
         d.stroke();
       }
 
-      /* Le mur du fond : de grands panneaux, comme des fenêtres. */
-      d.globalAlpha = 0.17;
-      for (let i = 0; i < 5; i += 1) {
-        const x = l * (0.36 + i * 0.13);
-        d.strokeRect(x, h * 0.16, l * 0.09, h * 0.42);
-      }
-
-      /* Une retombée de lumière au-dessus du personnage : c'est elle
-         qui fait du décor une scène et non un quadrillage. */
+      /* Une retombée de lumière sur la place du personnage : c'est
+         elle qui fait du décor une scène et non un plan. */
       const halo = d.createRadialGradient(
-        fx, h * 0.1, 0, fx, h * 0.1, h * 0.85
+        l * 0.17, 0, 0, l * 0.17, 0, h * 1.05
       );
       halo.addColorStop(0, accent);
       halo.addColorStop(1, 'transparent');
-      d.globalAlpha = 0.1;
+      d.globalAlpha = 0.13;
       d.fillStyle = halo;
       d.fillRect(0, 0, l, h);
       d.globalAlpha = 1;
     }
 
-    const peindre = { machine, trame, piece }[genre] || trame;
+    const peindre = { machine, trame, biblio }[genre] || trame;
 
     /* Seule la trame dérive : les deux autres décors sont fixes, et
        les redessiner à chaque image coûterait sans rien changer. */
