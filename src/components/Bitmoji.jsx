@@ -1,76 +1,134 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import corps from '../assets/images/bitmoji-corps.webp';
 import tete from '../assets/images/bitmoji-tete.webp';
 import './Bitmoji.css';
 
 /**
- * Le personnage qui accompagne le parcours.
+ * Le personnage qui raconte le parcours.
  *
- * Il est découpé en deux : le buste et la tête. La tête bouge seule,
- * elle suit la lecture et s'incline à mesure qu'on descend dans la
- * chronologie ; le buste respire. Un personnage d'un seul tenant ne
- * pourrait que glisser en bloc, ce qui paraît mécanique.
+ * Il est découpé en deux : le buste et la tête. La tête suit le
+ * curseur, elle se tourne vers lui comme quelqu'un à qui l'on parle ;
+ * le buste respire et accompagne le mouvement d'un léger report de
+ * poids. Un personnage d'un seul tenant ne pourrait que glisser en
+ * bloc, ce qui paraît mécanique.
  *
- * Le mouvement se calcule dans une boucle d'animation plutôt que par
- * des transitions CSS : il doit répondre au défilement sans retard, et
- * une transition sur chaque image de défilement saccaderait.
+ * Le suivi se calcule dans une boucle d'animation plutôt qu'en CSS :
+ * il doit répondre au curseur sans retard, et une transition à chaque
+ * mouvement de souris saccaderait.
  *
- * @param {number} avancement  0 en haut du parcours, 1 en bas
+ * Le regard est borné : au-delà d'une amplitude faible le personnage
+ * louche au lieu de regarder, parce que la tête est une image plate
+ * et non un volume.
+ *
+ * @param {number} avancement  0 à la première étape, 1 à la dernière
+ * @param {number} etape       l'index de l'étape racontée
+ * @param {number} sens        1 si l'on avance, -1 si l'on recule
  */
-export default function Bitmoji({ avancement = 0 }) {
+export default function Bitmoji({ avancement = 0, etape = 0, sens = 1 }) {
   const support = useRef(null);
   const refTete = useRef(null);
   const refCorps = useRef(null);
-  const vivant = useRef({ avancement: 0, lisse: 0 });
+  const [parle, setParle] = useState(false);
 
+  /* Tout ce que la boucle lit vit dans une référence : le réécrire
+     dans l'état relancerait un rendu à chaque image. */
+  const vivant = useRef({
+    viseX: 0, viseY: 0,      /* là où regarde le personnage, en -1..1 */
+    x: 0, y: 0,              /* là où il regarde vraiment, lissé */
+    salut: 0,                /* l'élan donné au changement d'étape */
+    avancement: 0
+  });
+
+  useEffect(() => { vivant.current.avancement = avancement; }, [avancement]);
+
+  /* Au changement d'étape, le personnage se redresse et reprend :
+     c'est lui qui vient de parler. */
   useEffect(() => {
-    vivant.current.avancement = avancement;
-  }, [avancement]);
+    vivant.current.salut = sens;
+    setParle(true);
+    const minuteur = setTimeout(() => setParle(false), 620);
+    return () => clearTimeout(minuteur);
+  }, [etape, sens]);
 
   useEffect(() => {
     const sobre = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (sobre) return undefined;
+
+    /* Le curseur, ramené en coordonnées relatives au personnage. */
+    const suivre = (ev) => {
+      const cadre = support.current;
+      if (!cadre) return;
+      const b = cadre.getBoundingClientRect();
+      const cx = b.left + b.width / 2;
+      const cy = b.top + b.height * 0.22;   /* à hauteur du visage */
+      const etat = vivant.current;
+      /* Divisé par une distance généreuse : le regard se porte au
+         loin, il ne colle pas au curseur. */
+      etat.viseX = Math.max(-1, Math.min(1, (ev.clientX - cx) / 420));
+      etat.viseY = Math.max(-1, Math.min(1, (ev.clientY - cy) / 380));
+    };
+
+    const oublier = () => {
+      const etat = vivant.current;
+      etat.viseX = 0;
+      etat.viseY = 0;
+    };
+
+    window.addEventListener('pointermove', suivre, { passive: true });
+    window.addEventListener('pointerleave', oublier);
 
     let image;
     let temps = 0;
 
     function animer() {
       image = requestAnimationFrame(animer);
-      temps += 0.016;
-
       const etat = vivant.current;
-      /* L'avancement arrive par à-coups au défilement : on le lisse
-         pour que le personnage suive d'un mouvement continu. */
-      etat.lisse += (etat.avancement - etat.lisse) * 0.08;
-      const a = etat.lisse;
+      if (!sobre) temps += 0.016;
 
-      /* Le buste respire : une dilatation lente, à peine perceptible,
-         qui suffit à ne plus le voir comme une image fixe. */
-      const souffle = Math.sin(temps * 0.9) * 0.006;
+      /* Le regard rejoint sa cible sans à-coup. */
+      etat.x += (etat.viseX - etat.x) * 0.085;
+      etat.y += (etat.viseY - etat.y) * 0.085;
+      etat.salut *= 0.91;
+
+      const souffle = sobre ? 0 : Math.sin(temps * 0.9) * 0.006;
+      const flotte = sobre ? 0 : Math.sin(temps * 0.9) * 2;
+
       if (refCorps.current) {
+        /* Le buste reporte son poids du côté où la tête se tourne :
+           sans cela le personnage a le torse figé et la tête mobile,
+           ce qui se lit comme une marionnette. */
         refCorps.current.style.transform =
-          `translateY(${Math.sin(temps * 0.9) * 2}px) ` +
+          `translate3d(${etat.x * 4}px, ${flotte}px, 0) ` +
+          `rotate(${etat.x * 0.9}deg) ` +
           `scaleY(${1 + souffle}) scaleX(${1 - souffle * 0.5})`;
       }
 
       if (refTete.current) {
-        /* La tête suit la lecture : elle se tourne vers le bas du
-           parcours et s'incline, comme quelqu'un qui lit une liste. */
-        const rotation = -3 + a * 7 + Math.sin(temps * 0.55) * 1.8;
-        const penche = a * 5;
-        const monte = Math.sin(temps * 0.9) * 2.4 - a * 1.5;
+        const balance = sobre ? 0 : Math.sin(temps * 0.55) * 1.1;
+        const rotation = etat.x * 7 + balance + etat.salut * 5;
+        const penche = etat.x * 14;             /* le volume, en Y */
+        const leve = -etat.y * 7;                /* le menton, en X */
+        const monte = flotte * 1.2 - etat.salut * 4;
 
         refTete.current.style.transform =
-          `translateY(${monte}px) rotate(${rotation}deg) ` +
-          `perspective(300px) rotateY(${penche}deg)`;
+          `translate3d(${etat.x * 6}px, ${monte}px, 0) ` +
+          `rotate(${rotation}deg) ` +
+          `perspective(320px) rotateY(${penche}deg) rotateX(${leve}deg)`;
       }
     }
     animer();
-    return () => cancelAnimationFrame(image);
+
+    return () => {
+      cancelAnimationFrame(image);
+      window.removeEventListener('pointermove', suivre);
+      window.removeEventListener('pointerleave', oublier);
+    };
   }, []);
 
   return (
-    <div className="bitmoji" ref={support}>
+    <div
+      className={`bitmoji ${parle ? 'bitmoji--parle' : ''}`}
+      ref={support}
+    >
       {/* Le cadre porte le rapport du buste ; la place de la tête est
           réservée au-dessus par le retrait du parent. */}
       <div className="bitmoji__cadre">

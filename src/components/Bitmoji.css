@@ -7,7 +7,7 @@
 .bitmoji {
   position: relative;
   width: 100%;
-  max-width: 190px;
+  max-width: 230px;
   margin-inline: auto;
   /* La tête déborde du buste de 25 % de sa hauteur vers le haut. Un
      retrait en pourcentage se calcule sur la largeur, pas la hauteur :
@@ -25,6 +25,14 @@
   aspect-ratio: 323 / 1007;
 }
 
+.bitmoji__corps,
+.bitmoji__tete {
+  /* Le mouvement est écrit image par image dans la boucle : aucune
+     transition ici, elle entrerait en conflit avec elle. */
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
 .bitmoji__corps {
   position: absolute;
   inset: 0;
@@ -32,7 +40,6 @@
   height: 100%;
   object-fit: contain;
   transform-origin: 50% 100%;   /* le buste respire depuis les pieds */
-  will-change: transform;
 }
 
 .bitmoji__tete {
@@ -42,7 +49,33 @@
   width: 57.1%;
   height: auto;
   transform-origin: 50% 88%;    /* la tête pivote depuis le cou */
-  will-change: transform;
+}
+
+/* Le halo qui s'allume quand le personnage vient de prendre la
+   parole : il marque le changement d'étape sans rien ajouter à
+   l'image elle-même. */
+.bitmoji::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: 62%;
+  aspect-ratio: 1;
+  transform: translate(-50%, 0) scale(0.7);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--accent) 22%, transparent),
+    transparent 68%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.bitmoji--parle::before {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
 }
 
 /* Une ombre douce sous les pieds : elle pose le personnage sur la
@@ -53,7 +86,7 @@
   left: 18%;
   right: 18%;
   bottom: -2%;
-  height: 10px;
+  height: 12px;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
@@ -64,10 +97,13 @@
 }
 
 @media (max-width: 900px) {
-  .bitmoji { max-width: 120px; }
+  .bitmoji { max-width: 150px; }
+}
+
+@media (max-width: 560px) {
+  .bitmoji { max-width: 118px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bitmoji__corps,
-  .bitmoji__tete { transform: none !important; }
+  .bitmoji::before { transition: none; }
 }

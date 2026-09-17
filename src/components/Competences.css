@@ -1,8 +1,13 @@
-/* Les six domaines de savoir-faire, en colonnes. */
+/* Les six domaines de savoir-faire, en colonnes.
+
+   Chaque domaine se lit en deux temps : les sujets sur une ligne, les
+   outils en étiquettes en dessous. Le détail ligne à ligne de la
+   version précédente faisait six colonnes de texte dense, que le
+   lecteur survolait sans rien retenir. */
 
 .competences {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--esp-xl) var(--esp-2xl);
   margin-top: var(--esp-2xl);
 }
@@ -24,27 +29,26 @@
 
 .competence__titre .marque { flex: 0 0 auto; }
 
-.competence__liste {
+.competence__sujets {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--encre);
+  margin-bottom: 14px;
+}
+
+.competence__outils {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.competence__liste li {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.competence__quoi {
-  font-size: 15px;
-  color: var(--encre);
-}
-
-.competence__precision {
-  font-size: 13px;
-  color: var(--encre-tenue);
+@media (max-width: 560px) {
+  .competences {
+    grid-template-columns: 1fr;
+    gap: var(--esp-lg);
+  }
+  .competence__sujets { font-size: 15px; }
 }

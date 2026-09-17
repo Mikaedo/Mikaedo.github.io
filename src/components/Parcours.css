@@ -1,144 +1,263 @@
-/* Le parcours : le personnage à gauche, la chronologie à droite. */
+/* Le parcours raconté : le personnage à gauche, ce qu'il dit à
+   droite, la chronologie en dessous qui sert aussi de commande. */
 
-.parcours-grille {
-  margin-top: var(--esp-2xl);
+.recit {
+  margin-top: var(--esp-xl);
+}
+
+.recit__scene {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 250px 1fr;
   gap: var(--esp-2xl);
-  align-items: start;
-}
-
-/* --- Le guide, qui suit la lecture ------------------------------ */
-.parcours__guide {
-  position: sticky;
-  top: calc(var(--barre-haut) + var(--esp-xl));
-  align-self: start;
-}
-
-.parcours__personnage {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--esp-sm);
+  min-height: 420px;
 }
 
-.parcours__annee {
-  font-family: var(--police-mono);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--accent);
-  padding: 5px 14px;
-  border: 1px solid var(--trait-fort);
-  border-radius: 999px;
-  background: var(--fond-carte);
-  font-variant-numeric: tabular-nums;
+/* La largeur est posée ici : le personnage se dimensionne sur son
+   parent, et « justify-self » seul laisse la boîte se réduire à rien
+   dans une colonne de grille. */
+.recit__personnage {
+  justify-self: center;
+  width: 100%;
+  max-width: 230px;
 }
 
-/* --- La chronologie --------------------------------------------- */
-.parcours {
-  display: flex;
-  flex-direction: column;
-}
-
-.etape {
-  display: grid;
-  grid-template-columns: 190px 1fr;
-  gap: var(--esp-xl);
-  padding-block: var(--esp-lg);
+/* La zone garde sa hauteur pendant que la bulle change : sans elle,
+   la page sauterait à chaque étape puisque les textes n'ont pas tous
+   la même longueur. */
+.recit__bulle-zone {
   position: relative;
-  transition: opacity .3s ease;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
 }
 
-/* Le fil qui joint une étape à la suivante. */
-.etape:not(:last-child)::before {
+.recit__bulle {
+  position: relative;
+  background: var(--fond-carte);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon-lg);
+  padding: var(--esp-lg) var(--esp-xl);
+  box-shadow: 0 18px 44px -28px color-mix(in srgb, var(--brun) 55%, transparent);
+  width: 100%;
+}
+
+/* La pointe de la bulle, tournée vers le personnage : c'est elle qui
+   fait lire le texte comme une parole et non comme une fiche. */
+.recit__bulle::before,
+.recit__bulle::after {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 32px;
-  bottom: -8px;
-  width: 1px;
-  background: var(--trait);
+  left: -11px;
+  top: 58px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 11px 11px 11px 0;
+  border-color: transparent var(--trait) transparent transparent;
 }
 
-.etape__quand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.recit__bulle::after {
+  left: -10px;
+  border-color: transparent var(--fond-carte) transparent transparent;
+}
+
+.recit__quand {
   font-family: var(--police-mono);
   font-size: 12.5px;
-  color: var(--encre-tenue);
-  padding-top: 4px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 10px;
 }
 
-.etape__point {
-  width: 9px;
-  height: 9px;
+.recit__titre {
+  font-size: clamp(20px, 2.6vw, 27px);
+  line-height: 1.24;
+  margin-bottom: 6px;
+  text-wrap: balance;
+}
+
+.recit__lieu {
+  font-size: 15px;
+  color: var(--brun-moyen);
+  margin-bottom: 14px;
+}
+
+.recit__texte {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--encre-douce);
+  max-width: 58ch;
+}
+
+/* --- La chronologie, qui commande le récit ----------------------- */
+.fil {
+  position: relative;
+  margin-top: var(--esp-2xl);
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  padding-top: 18px;
+}
+
+.fil__rail {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 22px;
+  height: 2px;
+  background: var(--trait);
+  border-radius: 2px;
+}
+
+.fil__parcouru {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  border-radius: 2px;
+  transform-origin: left center;
+}
+
+.fil__jalon {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  padding: 0 0 6px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--encre-tenue);
+  transition: color .25s ease;
+}
+
+.fil__point {
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--fond);
   border: 2px solid var(--trait-fort);
-  flex: 0 0 auto;
-  margin-left: -0.5px;
-  transition: border-color .3s ease, transform .3s ease;
+  transition: transform .3s cubic-bezier(.22,1,.36,1),
+              border-color .25s ease, background-color .25s ease;
 }
 
-/* L'étape en cours de lecture se marque, sans que les autres
-   s'effacent : le lecteur doit pouvoir parcourir toute la liste. */
-.etape--lue .etape__point {
+.fil__jalon--passe .fil__point {
+  background: var(--accent);
   border-color: var(--accent);
-  transform: scale(1.35);
 }
 
-.etape--lue .etape__quand { color: var(--accent); }
+.fil__jalon--ici .fil__point {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.55);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 18%, transparent);
+}
 
-.etape__titre {
-  font-size: 18px;
+.fil__annee {
+  font-family: var(--police-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.fil__jalon--ici { color: var(--accent); }
+.fil__jalon:hover .fil__point { transform: scale(1.3); }
+.fil__jalon--ici:hover .fil__point { transform: scale(1.55); }
+
+.fil__jalon:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--rayon-sm);
+}
+
+/* --- Précédent / suivant ---------------------------------------- */
+.recit__commandes {
+  margin-top: var(--esp-xl);
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 4px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-lg);
 }
 
-.etape__lieu {
-  font-size: 14.5px;
-  color: var(--brun-moyen);
-  margin-bottom: 8px;
+.recit__compte {
+  font-family: var(--police-mono);
+  font-size: 13px;
+  color: var(--encre-tenue);
+  font-variant-numeric: tabular-nums;
+  min-width: 68px;
+  text-align: center;
 }
 
-.etape__texte {
-  font-size: 15px;
-  color: var(--encre-douce);
-  max-width: 62ch;
+.recit__compte span { color: var(--accent); font-weight: 600; }
+
+.recit__commandes .bouton:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
 }
 
+/* --- Écrans étroits ---------------------------------------------- */
 @media (max-width: 900px) {
-  .parcours-grille {
+  .recit__scene {
     grid-template-columns: 1fr;
     gap: var(--esp-lg);
+    min-height: 0;
   }
-  /* Sur écran étroit, le personnage passe en bandeau au-dessus. */
-  .parcours__guide {
-    position: relative;
-    top: 0;
-    display: flex;
-    justify-content: center;
+  .recit__bulle-zone { min-height: 210px; }
+
+  /* La pointe passe au-dessus : le personnage n'est plus à gauche
+     mais au-dessus de la bulle. */
+  .recit__bulle::before,
+  .recit__bulle::after {
+    left: 50%;
+    top: -11px;
+    border-width: 0 11px 11px 11px;
+    border-color: transparent transparent var(--trait) transparent;
+    transform: translateX(-50%);
   }
-  .parcours__personnage {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--esp-md);
-    width: auto;
+  .recit__bulle::after {
+    top: -10px;
+    border-color: transparent transparent var(--fond-carte) transparent;
   }
-  .parcours__personnage .bitmoji { width: 96px; }
 }
 
-@media (max-width: 760px) {
-  .etape {
-    grid-template-columns: 1fr;
-    gap: var(--esp-sm);
-    padding-left: var(--esp-lg);
+@media (max-width: 680px) {
+  /* Neuf jalons ne tiennent pas de front : la chronologie défile,
+     et le jalon courant reste visible. */
+  .fil {
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    padding-inline: 4px;
+    scroll-snap-type: x proximity;
   }
-  .etape:not(:last-child)::before { left: 4px; top: 30px; }
-  .etape__quand { margin-left: calc(-1 * var(--esp-lg)); }
+  .fil::-webkit-scrollbar { display: none; }
+  .fil__jalon {
+    flex: 0 0 72px;
+    scroll-snap-align: center;
+  }
+  .fil__rail { display: none; }
+
+  .recit__bulle {
+    padding: var(--esp-md) var(--esp-lg);
+  }
+  .recit__bulle-zone { min-height: 240px; }
+  .recit__texte { font-size: 15px; }
+}
+
+@media (max-width: 420px) {
+  .recit__commandes {
+    gap: var(--esp-sm);
+  }
+  .recit__commandes .bouton {
+    flex: 1 1 0;
+    padding-inline: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fil__point,
+  .fil__jalon { transition: none; }
 }

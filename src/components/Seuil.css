@@ -1,0 +1,68 @@
+/* Le seuil entre deux sections.
+
+   Il remplace le trait plein qui séparait les blocs : celui-ci se
+   trace à mesure qu'on l'atteint, et prend la teinte de la section
+   qui suit. */
+
+.seuil {
+  position: relative;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Le fond glisse vers la teinte de la section suivante : la bascule
+   ne se fait plus sur une arête nette. */
+.seuil::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.seuil--creux::before {
+  background: linear-gradient(to bottom, var(--fond), var(--fond-creux));
+}
+
+.seuil--plein::before {
+  background: linear-gradient(to bottom, var(--fond-creux), var(--fond));
+}
+
+.seuil__trait {
+  position: relative;
+  height: 1px;
+  max-width: var(--largeur-max);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--trait-fort) 22%,
+    var(--trait-fort) 78%,
+    transparent
+  );
+}
+
+/* Un petit losange au centre du trait : il marque le passage sans
+   l'appuyer. */
+/* Le losange est découpé dans la forme et non obtenu par rotation :
+   la règle globale du mode sobre neutralise tout « transform » posé
+   en style, et la pastille redeviendrait un carré. */
+.seuil__pastille {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+@media (max-width: 760px) {
+  .seuil { height: 68px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sans mouvement, le seuil reste un trait posé : il doit être
+     visible d'emblée et non figé à sa largeur de départ. */
+  .seuil__trait { width: 100% !important; opacity: 1 !important; }
+  .seuil__pastille { opacity: 1 !important; }
+}

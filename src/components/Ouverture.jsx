@@ -11,6 +11,23 @@ import './Ouverture.css';
  * page doit être lisible dès la première image, y compris sur une
  * capture ou pour qui arrive avec les animations coupées.
  */
+/* Une flèche vers le bas, dessinée ici : un seul pictogramme ne
+   justifie pas de charger une bibliothèque d'icônes. */
+function Fleche() {
+  return (
+    <svg
+      width="15" height="15" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 4v12" />
+      <path d="m6 12 6 6 6-6" />
+      <path d="M5 20h14" />
+    </svg>
+  );
+}
+
 export default function Ouverture() {
   const monte = {
     initial: { opacity: 0, y: 18 },
@@ -76,6 +93,17 @@ export default function Ouverture() {
           >
             <a className="bouton bouton--plein" href="#projets">
               Voir les projets
+            </a>
+            {/* Le CV vit dans public/ : servi tel quel, sous son nom,
+                donc c'est ce nom que le visiteur retrouve dans ses
+                telechargements. */}
+            <a
+              className="bouton"
+              href={`${import.meta.env.BASE_URL}${profil.cv}`}
+              download
+            >
+              <Fleche />
+              Télécharger mon CV
             </a>
             <a className="bouton" href={profil.github}
                target="_blank" rel="noreferrer">

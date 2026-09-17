@@ -209,8 +209,11 @@ export default function Technos3D() {
   return (
     <div className="technos3d">
       <div className="technos3d__scene" ref={support} aria-hidden="true" />
-      <p className="technos3d__legende">
-        {survol || 'Survolez un logo pour le voir de face'}
+      {/* La légende ne nomme que ce qui est survolé. Une consigne
+          d'usage permanente apprend au lecteur ce qu'il découvre en
+          une seconde, et occupe la place pour rien. */}
+      <p className="technos3d__legende" aria-live="polite">
+        {survol || ' '}
       </p>
       {/* La liste reste lisible pour un lecteur d'écran et si la 3D
           ne se charge pas. */}

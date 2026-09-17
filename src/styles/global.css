@@ -75,8 +75,11 @@ button { font-family: inherit; }
   padding-block: var(--esp-3xl);
 }
 
-.section + .section {
-  border-top: 1px solid var(--trait);
+/* Les sections alternent entre les deux fonds, et le passage de l'une
+   à l'autre est dessiné par le composant Seuil. Le trait plein qui
+   les séparait auparavant ferait double emploi. */
+.section--creux {
+  background: var(--fond-creux);
 }
 
 @media (max-width: 760px) {

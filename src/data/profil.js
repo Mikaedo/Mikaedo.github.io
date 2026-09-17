@@ -18,6 +18,11 @@ export const profil = {
   telephone: '01 43 84 44 24',
   github: 'https://github.com/Mikaedo',
 
+  /* Le CV, converti du document Word d'origine. Il vit dans public/ :
+     Vite y copie les fichiers tels quels, sans les renommer, pour que
+     le nom du fichier telecharge reste lisible. */
+  cv: 'CV-NGuessan-Diby-Georges-Mikael.pdf',
+
   /* La phrase qui s'écrit lettre à lettre sous le nom. */
   rotations: [
     'applications mobiles hors connexion',
